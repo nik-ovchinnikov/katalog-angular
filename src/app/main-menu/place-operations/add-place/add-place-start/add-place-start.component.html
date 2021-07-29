@@ -1,0 +1,14 @@
+<div class="container">
+    <form [formGroup]="addPlaceForm" (ngSubmit)="onSubmit()">
+        <div class="form-group add-input-form">
+            <label for="name"> Имя нового места хранения</label>
+            <input class="form-control name-input" 
+            type="text" 
+            id="name" 
+            placeholder="Введите название"
+            formControlName="name"> 
+            <button class="btn btn-success" type="submit" id="onplaceAdded">Добавить</button>
+            <button class="btn btn-primary to-main-menu btn-scope" id="mainMenu">Главное меню</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,22 @@
+<div class="container">
+    <form  #f="ngForm"  (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <h4>Старое название - {{this.changePlaceInfoService.oldStorageInfo.name}}</h4>
+        <label for="">Новое название: </label>
+        <input type="text"
+          class="form-control" name="editedPlaceName"
+          id="" aria-describedby="helpId" 
+          placeholder="{{ this.changePlaceInfoService.oldStorageInfo.name}}" 
+          ngModel
+          >
+        <small id="helpId" class="form-text text-muted">Введите новое название хранилища </small>
+      </div>
+      
+      <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
+      <button class="btn btn-success" type="submit">Изменить</button>
+    </form>
+</div>
+
+
+
+

@@ -1,0 +1,28 @@
+<div class="container">
+    <h2>Предмет после изменения</h2>
+        <div class="form-group add-input-form">
+            <label for="name">Имя нового предмета</label>
+            <p class="form-control name-input">{{ this.changeItemInfoService.itemNewInfo.name }}</p>
+            
+            <label for="description">Описание для предмета</label>
+            <p class="form-control  name-input">{{ this.changeItemInfoService.itemNewInfo.description}}</p>
+
+            <label for="key"> Ключ в каталоге для предмета</label>
+            <p class="form-control  name-input">{{ this.changeItemInfoService.itemNewInfo.key}}</p>
+
+            <div >
+                <label> Названия файлов с фотографиями </label> <br>
+                <ul *ngFor="let path of this.changeItemInfoService.itemNewInfo.imagePaths">
+                    <li>{{ path }}</li>
+                </ul>
+            </div>
+
+              <label for="">Место расположение предмета</label>
+              <p class="form-control  name-input">{{ this.changeItemInfoService.itemNewInfo.storage}}</p>
+
+              <label for="">Тип предмета</label>
+              <p class="form-control  name-input">{{ this.changeItemInfoService.itemNewInfo.type}}</p>
+            <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
+ 
+        </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="container">
+        <h3>Cписок предметов, находящихся в хранилище "{{this.showAllPlaceItemsService.chosenStorage.name}}"</h3> 
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Имя</th>
+                    <th>Описание</th>
+                    <th>Ключ</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let item of this.showAllPlaceItemsService.itemsToShow; let i = index">
+                <tr>
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ item.name }}</td>
+                    <td>{{item.description}}</td>
+                    <td>{{ item.key }}</td>
+                </tr>
+                
+            </tbody>
+        </table>
+            <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
+</div>

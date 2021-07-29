@@ -1,0 +1,21 @@
+.add-input-form {
+    text-align: center;
+    font-size: x-large;
+    align-items: center;
+}
+.name-input, select, textarea, input.add-image-path{
+    width: 40%;
+    min-width: 150px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+.btn {
+    margin-left: 30px;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+h2 {
+    align-items: center;
+    text-align: center;
+}

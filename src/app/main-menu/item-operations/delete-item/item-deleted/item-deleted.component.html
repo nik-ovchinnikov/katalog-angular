@@ -1,0 +1,28 @@
+<div class="container">
+    <h2>Удалённый предмет </h2>
+        <div class="form-group add-input-form">
+            <label for="name">Имя предмета</label>
+            <p class="form-control name-input">{{ this.deleteItemService.itemToDelete.name }}</p>
+            
+            <label for="description">Описание предмета</label>
+            <p class="form-control  name-input">{{ this.deleteItemService.itemToDelete.description}}</p>
+
+            <label for="key"> Ключ в каталоге предмета</label>
+            <p class="form-control  name-input">{{ this.deleteItemService.itemToDelete.key}}</p>
+
+            <div >
+                <label> Названия файлов с фотографиями </label> <br>
+                <ul *ngFor="let path of this.deleteItemService.itemToDelete.imagePaths">
+                    <li>{{ path }}</li>
+                </ul>
+            </div>
+
+              <label for="">Место расположение предмета</label>
+              <p class="form-control  name-input">{{ this.deleteItemService.itemToDelete.storage.name}}</p>
+
+              <label for="">Тип предмета</label>
+              <p class="form-control  name-input">{{ this.deleteItemService.itemToDelete.type.name}}</p>
+            <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
+ 
+        </div>
+</div>

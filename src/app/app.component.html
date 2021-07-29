@@ -1,0 +1,90 @@
+<app-header></app-header>
+<app-main-menu
+    *ngIf = "this.showComponentService.valueStatusCollection.mainMenu"
+></app-main-menu>
+<!-- =================================Места============================= -->
+<!-- Добавление нового места -->
+<app-add-place-start *ngIf = "this.showComponentService.valueStatusCollection.addPlaceStart"
+></app-add-place-start>
+<app-place-added *ngIf = "this.showComponentService.valueStatusCollection.onPlaceAdded"
+></app-place-added>
+<!-- Изменение свойств места -->
+<app-show-place-list *ngIf = "this.showComponentService.valueStatusCollection.placeList"
+></app-show-place-list>
+<app-change-place *ngIf = "this.showComponentService.valueStatusCollection.changePlaceInfo"
+></app-change-place>
+<app-place-changed *ngIf = "this.showComponentService.valueStatusCollection.placeChanged"
+></app-place-changed> 
+<!-- Удаление места хранения -->
+<app-show-place-list-to-delete *ngIf = "this.showComponentService.valueStatusCollection.showPlaces"
+></app-show-place-list-to-delete>
+<app-place-deleted *ngIf = "this.showComponentService.valueStatusCollection.placeDeleted"
+></app-place-deleted>
+<!-- Показать все места хранения -->
+<app-show-all-places *ngIf = "this.showComponentService.valueStatusCollection.showAllPlaces"
+></app-show-all-places>
+<!-- ============================Предметы============================ -->
+<!-- Добавить предмет в каталог -->
+<app-add-item-start *ngIf = "this.showComponentService.valueStatusCollection.addItemStart"
+></app-add-item-start>
+<app-item-added *ngIf = "this.showComponentService.valueStatusCollection.onItemAdded"
+></app-item-added>
+<!-- Изменить премет каталога -->
+<app-show-all-items-list *ngIf = "this.showComponentService.valueStatusCollection.showAllItemsList"
+></app-show-all-items-list>
+<app-change-chosen-item *ngIf = "this.showComponentService.valueStatusCollection.changeChosenItem"
+></app-change-chosen-item>
+<app-item-changed *ngIf = "this.showComponentService.valueStatusCollection.itemChanged"
+></app-item-changed>
+<!-- Удалить предмет из каталога -->
+<app-delete-item *ngIf = "this.showComponentService.valueStatusCollection.deleteItem"
+></app-delete-item>
+<app-show-item-delete-list *ngIf = "this.showComponentService.valueStatusCollection.showItemDeleteList"
+></app-show-item-delete-list>
+<app-item-deleted *ngIf = "this.showComponentService.valueStatusCollection.itemDeleted"
+></app-item-deleted>
+<!-- Показать все предметы -->
+<app-show-all-items *ngIf = "this.showComponentService.valueStatusCollection.showAllItems"
+></app-show-all-items>
+<!-- Показать предметы из хранилища -->
+<app-chose-place *ngIf = "this.showComponentService.valueStatusCollection.choosePlace"
+></app-chose-place>
+<app-placeitems-showm *ngIf = "this.showComponentService.valueStatusCollection.placeItemsShown"
+></app-placeitems-showm>
+<app-show-all-placeitems *ngIf = "this.showComponentService.valueStatusCollection.showAllItemsOfStorage"
+></app-show-all-placeitems>
+<!-- Показать предметы типа -->
+<app-show-all-typeitems *ngIf = "this.showComponentService.valueStatusCollection.showAllItemsOfType"
+></app-show-all-typeitems>
+<app-choose-types *ngIf = "this.showComponentService.valueStatusCollection.chooseTypes"
+></app-choose-types>
+<app-type-items-shown *ngIf = "this.showComponentService.valueStatusCollection.typeItemsShown"
+></app-type-items-shown>
+
+<!-- ===========================Типы============================ -->
+<!-- Дабавить тип предмета -->
+<app-add-item-type *ngIf = "this.showComponentService.valueStatusCollection.addItemType"
+></app-add-item-type>
+<app-add-type-start *ngIf = "this.showComponentService.valueStatusCollection.addTypeStart"
+></app-add-type-start>
+<app-type-added *ngIf = "this.showComponentService.valueStatusCollection.typeAdded"
+></app-type-added>
+<!-- Именить данные о типе предметов -->
+<app-change-item-type *ngIf = "this.showComponentService.valueStatusCollection.changeItemType"
+></app-change-item-type>
+<app-show-type-list *ngIf = "this.showComponentService.valueStatusCollection.showTypeList"
+></app-show-type-list>
+<app-change-type-info *ngIf = "this.showComponentService.valueStatusCollection.changeTypeInfo"
+></app-change-type-info>
+<app-type-changed *ngIf = "this.showComponentService.valueStatusCollection.typeChanged"
+></app-type-changed>
+<!-- Удалить предмет -->
+<app-delete-item-type *ngIf = "this.showComponentService.valueStatusCollection.deleteItemType"
+></app-delete-item-type>
+<app-show-type-list-delete *ngIf = "this.showComponentService.valueStatusCollection.showType"
+></app-show-type-list-delete>
+<app-type-deleted *ngIf = "this.showComponentService.valueStatusCollection.typeDeleted"
+></app-type-deleted>
+<!-- Показать все типы предметов -->
+<app-shoe-all-item-types *ngIf = "this.showComponentService.valueStatusCollection.showAllItemTypes"
+></app-shoe-all-item-types>

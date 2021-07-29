@@ -1,0 +1,30 @@
+
+
+<div class="container">
+    <h2>Добавлен новый предмет в каталог</h2>
+        <div class="form-group add-input-form">
+            <label for="name">Имя нового предмета</label>
+            <p class="form-control name-input">{{ this.addItemService.addedItem.name }}</p>
+            
+            <label for="description">Описание для предмета</label>
+            <p class="form-control  name-input">{{ this.addItemService.addedItem.description}}</p>
+
+            <label for="key"> Ключ в каталоге для предмета</label>
+            <p class="form-control  name-input">{{ this.addItemService.addedItem.key}}</p>
+
+            <div >
+                <label> Названия файлов с фотографиями </label> <br>
+                <ul *ngFor="let path of this.addItemService.addedItem.imagePaths">
+                    <li>{{ path }}</li>
+                </ul>
+            </div>
+
+              <label for="">Место расположение предмета</label>
+              <p class="form-control  name-input">{{ this.addItemService.addedItem.storage}}</p>
+
+              <label for="">Тип предмета</label>
+              <p class="form-control  name-input">{{ this.addItemService.addedItem.type}}</p>
+            <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
+ 
+        </div>
+</div>

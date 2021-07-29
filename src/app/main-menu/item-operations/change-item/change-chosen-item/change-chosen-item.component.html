@@ -1,0 +1,56 @@
+<div class="container">
+    <h2>Добавление нового предмета в каталог</h2>
+    <form [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
+        <div class="form-group add-input-form">
+            <label for="name">Введите имя нового предмета</label>
+            <input class="form-control name-input" 
+                type="text" 
+                id="name" 
+                placeholder="Введите название"
+                formControlName="name"    
+            >
+            
+            <label for="description">Введите описание для предмета</label>
+            <textarea class="form-control" 
+                name="" 
+                id="description" 
+                rows="3"
+                formControlName="description"    
+                placeholder="Введите  описание"
+            ></textarea>
+
+            <label for="key">Введите ключ в каталоге для предмета</label>
+            <input class="form-control name-input" 
+                type="text" 
+                id="key" 
+                placeholder="Введите  ключ"
+                formControlName="key"    
+            >
+            <div formArrayName="imagePaths">
+                <label>Введите название файлов с фотографиями </label> <br>
+                <button
+                  class="btn btn-default"
+                  type="button"
+                  (click)="onAddPhotoPath()">Добавить aдресс фото</button>
+                <div
+                  class="form-group"
+                  *ngFor="let hobbyControl of controlsImagePaths; let i = index">
+                  <input type="text" class="form-control add-image-path" [formControlName]="i">
+                </div>
+            </div>
+
+              <label for="">Выбирите место расположение предмета</label>
+              <select class="form-control" name="place" id="place" formControlName="place" >
+                    <option *ngFor="let place of places" [value]="place.name">{{ place.name }}</option>
+              </select> 
+
+              <label for="">Выбирите тип предмета</label>
+              <select class="form-control" name="type" id="type"  formControlName="type" >
+                    <option *ngFor="let itemType of itemTypes" [value]="itemType.name" placeholder="Выбирите тип">{{ itemType.name }}</option>
+              </select> 
+            <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
+            <button class="btn btn-success" type="submit">Изменить</button>
+ 
+        </div>
+    </form>
+</div>
