@@ -7,7 +7,7 @@ import { ShowAllTypeItemsService } from './showAllTypeItems.service';
   styleUrls: ['./show-all-typeitems.component.css'],
   providers: [ShowAllTypeItemsService]
 })
-export class ShowAllTypeitemsComponent implements OnInit {
+export class ShowAllTypeitemsComponent implements OnInit { 
 
   constructor(
     private showAllTypeItemsService: ShowAllTypeItemsService    

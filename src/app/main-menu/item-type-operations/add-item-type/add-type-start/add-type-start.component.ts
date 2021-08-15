@@ -18,12 +18,16 @@ export class AddTypeStartComponent implements OnInit {
 
   ngOnInit() {
     this.addTypeForm= new FormGroup({
-      'name':new FormControl(null, [Validators.required])
+      'name': new FormControl(null, [Validators.required]),
+      'description': new FormControl(null, [Validators.required]),
+
     });
   }
 
   onSubmit() {
     this.AddTypeService.itemTypeAdded.name = this.addTypeForm.value.name;
+    this.AddTypeService.itemTypeAdded.description= this.addTypeForm.value.description;
+    this.AddTypeService.addItemType();
     this.showComponentService.changeSceneTo("typeAdded");
   }
 }

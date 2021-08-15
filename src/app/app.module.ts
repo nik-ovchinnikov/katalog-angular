@@ -61,6 +61,12 @@ import { ChooseTypesComponent } from './main-menu/item-operations/show-all-typei
 import { TypeItemsShownComponent } from './main-menu/item-operations/show-all-typeitems/type-items-shown/type-items-shown.component';
 import { ShowAllTypeItemsService } from './main-menu/item-operations/show-all-typeitems/showAllTypeItems.service';
 
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { ShowAllPlacesService } from './main-menu/place-operations/show-all-places/showAllPlace.service';
+import { GetStorageByIdService } from './main-menu/place-operations/getStorageById.service';
+import { ShowAllItemTypeService } from './main-menu/item-type-operations/shoe-all-item-types/showAllItemTypes.service';
+import { ShowAllItemsService } from './main-menu/item-operations/show-all-items/showAllItems.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -113,7 +119,10 @@ import { ShowAllTypeItemsService } from './main-menu/item-operations/show-all-ty
   imports: [
     BrowserModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule, 
+    HttpClientJsonpModule,
+    
   ],
   providers: [
     ShowComponentService, 
@@ -129,6 +138,11 @@ import { ShowAllTypeItemsService } from './main-menu/item-operations/show-all-ty
     ChangeItemTypeService,
     DeleteTypeService,
     ShowAllTypeItemsService,
+    //запросы на сервер
+    ShowAllPlacesService,
+    GetStorageByIdService,
+    ShowAllItemTypeService,
+    ShowAllItemsService,
   ],
   bootstrap: [AppComponent]
 })

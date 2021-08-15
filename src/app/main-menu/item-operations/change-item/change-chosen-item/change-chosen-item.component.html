@@ -1,8 +1,8 @@
-<div class="container">
-    <h2>Добавление нового предмета в каталог</h2>
+<div class="container"> 
+    <h2>Изменение предмета в каталог</h2>
     <form [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
         <div class="form-group add-input-form">
-            <label for="name">Введите имя нового предмета</label>
+            <label for="name">Введите нового имя предмета</label>
             <input class="form-control name-input" 
                 type="text" 
                 id="name" 
@@ -10,16 +10,16 @@
                 formControlName="name"    
             >
             
-            <label for="description">Введите описание для предмета</label>
+            <label for="description">Введите новое описание для предмета</label>
             <textarea class="form-control" 
                 name="" 
                 id="description" 
                 rows="3"
                 formControlName="description"    
-                placeholder="Введите  описание"
+                placeholder="Введите  описание"  
             ></textarea>
 
-            <label for="key">Введите ключ в каталоге для предмета</label>
+            <label for="key">Введите новый ключ в каталоге для предмета</label>
             <input class="form-control name-input" 
                 type="text" 
                 id="key" 
@@ -34,19 +34,19 @@
                   (click)="onAddPhotoPath()">Добавить aдресс фото</button>
                 <div
                   class="form-group"
-                  *ngFor="let hobbyControl of controlsImagePaths; let i = index">
+                  *ngFor="let imgPathControl of controlsImagePaths; let i = index">
                   <input type="text" class="form-control add-image-path" [formControlName]="i">
                 </div>
             </div>
 
-              <label for="">Выбирите место расположение предмета</label>
+              <label for="">Выбирите новое место расположение предмета</label>
               <select class="form-control" name="place" id="place" formControlName="place" >
                     <option *ngFor="let place of places" [value]="place.name">{{ place.name }}</option>
               </select> 
 
-              <label for="">Выбирите тип предмета</label>
+              <label for="">Выбирите новый тип предмета</label>
               <select class="form-control" name="type" id="type"  formControlName="type" >
-                    <option *ngFor="let itemType of itemTypes" [value]="itemType.name" placeholder="Выбирите тип">{{ itemType.name }}</option>
+                    <option *ngFor="let itemType of itemTypes" [value]="itemType.name">{{ itemType.name }}</option>
               </select> 
             <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
             <button class="btn btn-success" type="submit">Изменить</button>

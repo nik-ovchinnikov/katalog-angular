@@ -1,7 +1,7 @@
 <div class="container">
     <h2>Предмет после изменения</h2>
         <div class="form-group add-input-form">
-            <label for="name">Имя нового предмета</label>
+            <label for="name">Имя предмета</label>
             <p class="form-control name-input">{{ this.changeItemInfoService.itemNewInfo.name }}</p>
             
             <label for="description">Описание для предмета</label>
@@ -18,10 +18,10 @@
             </div>
 
               <label for="">Место расположение предмета</label>
-              <p class="form-control  name-input">{{ this.changeItemInfoService.itemNewInfo.storage}}</p>
+              <p class="form-control  name-input">{{ this.changeItemInfoService.itemNewInfo.storageName}}</p>
 
               <label for="">Тип предмета</label>
-              <p class="form-control  name-input">{{ this.changeItemInfoService.itemNewInfo.type}}</p>
+              <p class="form-control  name-input">{{ this.changeItemInfoService.itemNewInfo.typeName}}</p>
             <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
  
         </div>

@@ -9,7 +9,7 @@
                     <th>Ключ</th>
                 </tr>
             </thead>
-            <tbody *ngFor="let item of this.showAllTypeItemsService.items; let i = index">
+            <tbody *ngFor="let item of this.showAllTypeItemsService.itemsToShow; let i = index">
                 <tr>
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ item.name }}</td>

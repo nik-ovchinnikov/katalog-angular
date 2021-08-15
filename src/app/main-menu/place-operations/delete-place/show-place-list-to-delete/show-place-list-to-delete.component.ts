@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/core';
-
+ 
 import { Storage } from '../../../../shared/storage.model'
 import { NgForm } from '@angular/forms';
 import { ShowComponentService } from 'src/app/showComponent.service';
@@ -11,26 +11,24 @@ import { DeletePlaceService } from '../deletePlace.service';
 })
 export class ShowPlaceListToDeleteComponent implements OnInit {
 
-  constructor(private showComponentSercvice: ShowComponentService,
-              private deletePlaceService: DeletePlaceService) { }
-
-  ngOnInit(): void {
-  }
-
- //!! ЭТо запрос в БД 
-  places: Storage[] = [
-    new Storage('Ризница'),
-    new Storage('Клирос Знаменского Храма'),
-    new Storage('Алтарь Спасского собора'),
-  ];
+  places: Storage[] = [];
 
   @ViewChild('f', { static: false })
   choosePlaceForm: NgForm;
 
+  constructor(private showComponentSercvice: ShowComponentService,
+              private deletePlaceService: DeletePlaceService) { }
+
+  ngOnInit(): void {
+    this.deletePlaceService.getStorages();
+    this.deletePlaceService.onStorageListChanged.subscribe((storageListChanged: Storage[])=> {
+      this.places = storageListChanged;
+    });
+  }
 
   onSubmit() {
-    this.deletePlaceService.deletedStorage.name = this.choosePlaceForm.value.placeToChange;
-    //!! Тут обращение к серверу, удаление места из таблицы
+    this.deletePlaceService.getDeletedStorage(this.choosePlaceForm.value);
+    this.deletePlaceService.deleteStorages();
     this.showComponentSercvice.changeSceneTo('placeDeleted');
   }
 }

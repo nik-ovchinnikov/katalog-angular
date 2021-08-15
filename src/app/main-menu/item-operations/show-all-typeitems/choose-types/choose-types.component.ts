@@ -11,30 +11,22 @@ import { ShowComponentService } from 'src/app/showComponent.service';
 })
 export class ChooseTypesComponent implements OnInit {
 
+  @ViewChild('f', { static: false })
+  chooseTypesForm: NgForm;
+  types: ItemType[] = [];
   constructor(
     private showComponentService: ShowComponentService,
     private showAllTypeItemsService: ShowAllTypeItemsService    
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { 
+    this.types = this.showAllTypeItemsService.getTypeList();
   }
-
-  //!! Это запрос к серверу
-  types: ItemType[] = [
-    new ItemType("Крест напрестольный"),
-    new ItemType("Евангелие напрестольное"),
-    new ItemType("Евангелие требное"),
-    new ItemType("Крест требный"),
-    new ItemType("Дарохранительница"),
-  ]
-  
-  @ViewChild('f', { static: false })
-  chooseTypesForm: NgForm;
 
 
   onSubmit() {
     this.showAllTypeItemsService.chosenType.name = this.chooseTypesForm.value.typeToChange;
-    
+    this.showAllTypeItemsService.getTypeItems();
     //Далее запрос на сервер в службе
     this.showComponentService.changeSceneTo('typeItemsShown');
 

@@ -12,7 +12,7 @@ export class AppComponent {
   ngOnInit(): void {
   }
 
-  ngAfterViewChecked(): void {
+  ngAfterContentChecked(): void {
     this.buttonService.onClickNvigationEL();
   }
 

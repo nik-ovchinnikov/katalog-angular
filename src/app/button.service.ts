@@ -3,6 +3,9 @@ import { ShowComponentService } from './showComponent.service';
 
 @Injectable()
 export class Button {
+
+   
+
     constructor(private showComponentService: ShowComponentService) {}
     onClickNvigationEL(){
         document.querySelectorAll('.btn-scope').forEach((btn) => {

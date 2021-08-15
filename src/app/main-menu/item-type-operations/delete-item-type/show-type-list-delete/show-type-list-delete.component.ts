@@ -12,29 +12,27 @@ import { ItemType } from 'src/app/shared/itemType.model';
 })
 export class ShowTypeListDeleteComponent implements OnInit {
 
+  types: ItemType[] = [];
+
+  @ViewChild('f', { static: false })
+  chooseItemTypeForm: NgForm;
+
   constructor(
     private showComponentSercvice: ShowComponentService,
     private deleteTypeService: DeleteTypeService
   ) { }
 
   ngOnInit(): void {
+    this.deleteTypeService.itemTypeList = [];
+    this.deleteTypeService.getItemTypes();
+    this.deleteTypeService.onListChanged.subscribe((typeListChanged: ItemType[]) => {
+      this.types = typeListChanged;
+    });
   }
 
-  types: ItemType[] = [
-    new ItemType("Крест напрестольный"),
-    new ItemType("Евангелие напрестольное"),
-    new ItemType("Евангелие требное"),
-    new ItemType("Крест требный"),
-    new ItemType("Дарохранительница"),
-  ]
-
-  @ViewChild('f', { static: false })
-  choosePlaceForm: NgForm;
-
-
   onSubmit() {
-    this.deleteTypeService.deletedType.name = this.choosePlaceForm.value.placeToChange;
-    //!! Тут обращение к серверу, удаление места из таблицы
+    this.deleteTypeService.getDeletedItemType(this.chooseItemTypeForm.value); 
+    this.deleteTypeService.deleteTypes();
     this.showComponentSercvice.changeSceneTo('typeDeleted');
   }
 }

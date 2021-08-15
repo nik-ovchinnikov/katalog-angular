@@ -16,26 +16,16 @@ import { ShowComponentService } from 'src/app/showComponent.service';
 })
 export class AddItemStartComponent implements OnInit {
 
-  controlsImagePaths;
+  controlsImagePaths; 
   addItemForm: FormGroup;
   addedItem: Item = new Item();
 
-  //!! Это запрос к серверу
-  places: Storage[] = [
-    new Storage("Ризница"),
-    new Storage("Сосудохранительница"),
-    new Storage("Клирос знаменского храма"),
-    new Storage("Клирос никольского храма"),
-  ]
+  places: Storage[] = [];
+  itemTypes: ItemType[] = [];
 
-  //!! Это запрос к серверу
-  itemTypes: ItemType[] = [
-    new ItemType("Крест напрестольный"),
-    new ItemType("Евангелие напрестольное"),
-    new ItemType("Евангелие требное"),
-    new ItemType("Крест требный"),
-    new ItemType("Дарохранительница"),
-  ]
+  placeDefault = null;
+  typeDefault = null;
+  
    constructor(private addItemService: AddItemService, 
                 private showComponentService: ShowComponentService) { }
 
@@ -48,8 +38,8 @@ export class AddItemStartComponent implements OnInit {
       "key": new FormControl(null),
       "incomeDate": new FormControl(new Date()),
       "imagePaths": new FormArray([]),
-      "place": new FormControl(this.places[0].name),
-      "type": new FormControl(this.itemTypes[0].name),
+      "place": new FormControl( this.placeDefault),
+      "type": new FormControl( this.typeDefault),
     });
     this.controlsImagePaths = (<FormArray>this.addItemForm.get('imagePaths')).controls;
     //this.controlsImagePaths = this.addItemForm.get('imagePaths').control;
@@ -57,19 +47,36 @@ export class AddItemStartComponent implements OnInit {
     //    "type": this.itemTypes[0],
     //    "place": this.places[0],
     //  });
+
+    //Добыть места
+
+    //Добыть Типы
+    this.addItemService.getLists();
+    this.addItemService.storageListsChangedEmitter.subscribe((places) => {
+      this.places = places;
+      this.placeDefault = this.places[0].name;
+    })
+    this.addItemService.typesListsChangedEmitter.subscribe((types) => {
+      this.itemTypes = types;
+      this.typeDefault = this.itemTypes[0].name;
+    });
   }
  
   onSubmit() {
-     //this.addedItem = new Item (
-    this.addItemService.addedItem = new Item (
+    //По названию из формы вытащить Место и Тип
+
+    this.addItemService.addedItem = new Item ( 
       this.addItemForm.value.name,
       this.addItemForm.value.description,
-      this.addItemForm.value.imagePaths,
+      this.addItemForm.value.imagePaths[0],
       this.addItemForm.value.key,
       this.addItemForm.value.incomeDate,
-      this.addItemForm.value.place,
-      this.addItemForm.value.type,
+      //Вместо них добавить объекты найденные по именам, имеющиеся в списке
+      //this.addItemForm.value.place,
+      //this.addItemForm.value.type,
     );
+   console.log(this.addItemForm.value.place);
+   this.addItemService.addItem();
    this.showComponentService.changeSceneTo('onItemAdded'); 
 
   }

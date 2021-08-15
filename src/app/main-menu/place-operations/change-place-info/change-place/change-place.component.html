@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container"> 
     <form  #f="ngForm"  (ngSubmit)="onSubmit()">
       <div class="form-group">
         <h4>Старое название - {{this.changePlaceInfoService.oldStorageInfo.name}}</h4>
@@ -10,6 +10,17 @@
           ngModel
           >
         <small id="helpId" class="form-text text-muted">Введите новое название хранилища </small>
+        <br>
+        <br>
+
+        <label for="">Новое описание: </label>
+        <textarea type="input"
+          class="form-control" name="editedPlaceDescription"
+          id="" aria-describedby="helpId" 
+          placeholder="{{ this.changePlaceInfoService.oldStorageInfo.description}}" 
+          ngModel
+          ></textarea>
+        <small id="helpId" class="form-text text-muted">Введите новое описание хранилища </small>
       </div>
       
       <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>

@@ -12,6 +12,10 @@ import { ItemType } from 'src/app/shared/itemType.model';
 })
 export class ShowTypeListComponent implements OnInit {
 
+  types: ItemType[] = [];
+  
+  @ViewChild('f', { static: false })
+  chooseTypeForm: NgForm;
 
   constructor(
     private changeItemTypeService: ChangeItemTypeService,
@@ -20,25 +24,15 @@ export class ShowTypeListComponent implements OnInit {
   
 
   ngOnInit(){
+    this.changeItemTypeService.itemTypeList= [];
+    this.changeItemTypeService.getItemTypes();
+    this.changeItemTypeService.onListChanged.subscribe((listChanged: Storage[])=> {
+      this.types= listChanged;
+    });
   }
 
-
-  //!! Это запрос к серверу
-  types: ItemType[] = [
-    new ItemType("Крест напрестольный"),
-    new ItemType("Евангелие напрестольное"),
-    new ItemType("Евангелие требное"),
-    new ItemType("Крест требный"),
-    new ItemType("Дарохранительница"),
-  ]
-  
-  @ViewChild('f', { static: false })
-  choosePlaceForm: NgForm;
-
-
   onSubmit() {
-    this.changeItemTypeService.oldItemTypeInfo.name = this.choosePlaceForm.value.placeToChange;
+    this.changeItemTypeService.getOldItemType(this.chooseTypeForm.value);
     this.showComponentService.changeSceneTo('changeTypeInfo');
-
   }
 }

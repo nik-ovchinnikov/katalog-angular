@@ -1,49 +1,33 @@
 import { Item } from 'src/app/shared/item.model';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Button } from 'src/app/button.service';
 import { ItemType } from 'src/app/shared/itemType.model';
 import { Storage } from '../../../shared/storage.model'
 import { ShowComponentService } from 'src/app/showComponent.service';
+import { AddItemService } from '../add-item/addItem.service';
+import { ShowAllPlacesService } from '../../place-operations/show-all-places/showAllPlace.service';
+import { ShowAllItemTypeService } from '../../item-type-operations/shoe-all-item-types/showAllItemTypes.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class ChangeItemInfoService {
     itemToChange: Item = new Item();
     itemNewInfo: Item = new Item();
     idForChange: string = '';    
-        //!! Это запрос на сервер
-    items = [
-        new Item(
-          "Крест серебрянный требный",
-          "Крест серебрянный требный. Производство Софрино. Среднего размера. Есть царапины. Выносится на Господские праздники",
-          ["sadfsf", "sfafsfsfd", "afdsafsaddf", "dafsdfasf"],
-          "КCT1",
-          new Date(),
-          new Storage("Сосудохранительница"),
-          new ItemType("Крест Требный")
-        ),
-        new Item(
-          "Крест золотой",
-          "Крест  золтойтребный. Производство Софрино. Малого размера. Есть царапины. Выносится на Господские праздники",
-          ["sadfsf", "sfafsfsfd", "afdsafsaddf", "dafsdfasf"],
-          "КЗT1",
-          new Date(),
-          new Storage("Ризница"),
-          new ItemType("Крест Требный")
-        ), 
-        new Item(
-          
-          "Евангелие золотой",
-          "Евангелие золтое требный. Производство Софрино. Среднего размера. Есть царапины. Выносится на Господские праздники",
-          ["sadfsf", "sfafsfsfd", "afdsafsaddf", "dafsdfasf"],
-          "ЕЗT1",
-          new Date(),
-          new Storage("Ризница"),
-          new ItemType("Евангелие")
-        ),
-    ]
+
+    items: Item[] = [];
+    typeList: ItemType[] = [];
+    placeList: Storage[] = [];
+
+//Костыль. Избавляет от двойного нажатия из-за нескольких eventListener-ов
+    changeButtonCounter = 0;
+    counterUpdate = 0;
 
     constructor(
-        private showComponentService: ShowComponentService,        
+        private showComponentService: ShowComponentService,
+        private showAllPlaceService: ShowAllPlacesService,
+        private showAllItemTypesservice: ShowAllItemTypeService,
+        private http: HttpClient,
     ) {}
 
     //по айдишнику находит из массива элемент и записывает его в ИтемТуЧендж
@@ -59,9 +43,33 @@ export class ChangeItemInfoService {
     changeButtonListener() {
         document.querySelectorAll(".change-btn").forEach((btn) => {
             btn.addEventListener('click', () => {
-                this.getChangeItem(btn.id);
-                this.showComponentService.changeSceneTo('changeChosenItem');
+                if(this.changeButtonCounter == 0){
+                    this.getChangeItem(btn.id);
+                    this.showComponentService.changeSceneTo('changeChosenItem');
+                    this.changeButtonCounter++;
+                }
             });
         });
+    }
+
+    //Забирает из сервера списки типов и мест
+    getLists() {
+        this.placeList = this.showAllPlaceService.getStorages();
+        this.typeList = this.showAllItemTypesservice.getItemTypes();
+        return [this.placeList, this.typeList];
+    }
+
+    public updateItem() {
+        console.log(this.itemNewInfo); 
+        if(this.counterUpdate == 0){
+            this.http.put(
+                'http://localhost:8080/item/updateItem',
+                this.itemNewInfo
+            ).subscribe(responseData => {
+                //console.log(responseData);
+            });
+        }
+        this.counterUpdate++;
+        
     }
 }

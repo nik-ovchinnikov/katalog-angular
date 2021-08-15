@@ -10,6 +10,8 @@ import { NgForm } from '@angular/forms';
 })
 export class ChangeTypeInfoComponent implements OnInit {
 
+  @ViewChild('f', { static: false })
+  editItemTypeForm: NgForm;
 
   constructor(
     private changeItemTypeService: ChangeItemTypeService,
@@ -19,13 +21,10 @@ export class ChangeTypeInfoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  @ViewChild('f', { static: false })
-  editPlaceForm: NgForm;
-
 
   onSubmit() {
-    //!!тут будет запись в базу данных
-    this.changeItemTypeService.newItemTypeInfo.name = this.editPlaceForm.value.editedPlaceName;
-    this.showComponentService.changeSceneTo('typeChanged');
+    this.changeItemTypeService.getNewItemType(this.editItemTypeForm.value);
+    this.changeItemTypeService.updateItemType();
+    this.showComponentService.changeSceneTo('typeChanged'); 
   }
 }

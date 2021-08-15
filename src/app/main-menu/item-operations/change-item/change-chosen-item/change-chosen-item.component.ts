@@ -5,6 +5,7 @@ import { FormGroup, FormControl, FormArray, Validators, AbstractControl } from '
 import { Item } from 'src/app/shared/item.model';
 import { Storage } from '../../../../shared/storage.model'
 import { ItemType } from 'src/app/shared/itemType.model';
+import { AddItemService } from '../../add-item/addItem.service';
 
 @Component({
   selector: 'app-change-chosen-item',
@@ -13,50 +14,39 @@ import { ItemType } from 'src/app/shared/itemType.model';
 })
 export class ChangeChosenItemComponent implements OnInit {
 
-  constructor(
-    private changeItemInfoService: ChangeItemInfoService,
-    private showComponentService: ShowComponentService
-  ) { }
-
-
-
-  controlsImagePaths;
+  controlsImagePaths; 
   addItemForm: FormGroup;
   addedItem: Item = new Item();
 
-  //!! Это запрос к серверу
-  places: Storage[] = [
-    new Storage("Ризница"),
-    new Storage("Сосудохранительница"),
-    new Storage("Клирос знаменского храма"),
-    new Storage("Клирос никольского храма"),
-  ]
+  places: Storage[] = [];
+  itemTypes: ItemType[] = [];
 
-  //!! Это запрос к серверу
-  itemTypes: ItemType[] = [
-    new ItemType("Крест напрестольный"),
-    new ItemType("Евангелие напрестольное"),
-    new ItemType("Евангелие требное"),
-    new ItemType("Крест требный"),
-    new ItemType("Дарохранительница"),
-  ]
+  recievedLists = [];
 
-   imgPathFormControllers: FormControl[] = [];
+  
+   constructor(private changeItemInfoService: ChangeItemInfoService, 
+                private showComponentService: ShowComponentService) { }
+
+   
 
   ngOnInit(): void {
-    //преобразования для FormArray
-    this.changeItemInfoService.itemToChange.imagePaths.forEach((imgPath) => {
-      this.imgPathFormControllers.push(new FormControl(imgPath));
-    });
+    this.changeItemInfoService.counterUpdate = 0;
+    //console.log(this.changeItemInfoService.itemToChange);
+    //Добыть Типы
+    //Добыть места
+    this.recievedLists = this.changeItemInfoService.getLists();
+    this.places = this.recievedLists[0];
+    this.itemTypes = this.recievedLists[1];
+    console.log(this.changeItemInfoService.itemToChange.typeName);
 
     this.addItemForm = new FormGroup({
       "name": new FormControl(this.changeItemInfoService.itemToChange.name),
       "description": new FormControl(this.changeItemInfoService.itemToChange.description),
       "key": new FormControl(this.changeItemInfoService.itemToChange.key),
       "incomeDate": new FormControl(this.changeItemInfoService.itemToChange.incomeDate),
-      "imagePaths": new FormArray(this.imgPathFormControllers),
-      "place": new FormControl(this.places[0].name),
-      "type": new FormControl(this.itemTypes[0].name),
+      "imagePaths": new FormArray([]),
+      "type": new FormControl( this.changeItemInfoService.itemToChange.typeName),
+      "place": new FormControl( this.changeItemInfoService.itemToChange.storageName),
     });
     this.controlsImagePaths = (<FormArray>this.addItemForm.get('imagePaths')).controls;
     //this.controlsImagePaths = this.addItemForm.get('imagePaths').control;
@@ -64,25 +54,30 @@ export class ChangeChosenItemComponent implements OnInit {
     //    "type": this.itemTypes[0],
     //    "place": this.places[0],
     //  });
-  }
- 
-  onSubmit() {
-     //this.addedItem = new Item (
-    this.changeItemInfoService.itemNewInfo = new Item (
-      this.addItemForm.value.name,
-      this.addItemForm.value.description,
-      this.addItemForm.value.imagePaths,
-      this.addItemForm.value.key,
-      this.addItemForm.value.incomeDate,
-      this.addItemForm.value.place,
-      this.addItemForm.value.type,
-    );
-   this.showComponentService.changeSceneTo('itemChanged'); 
-      
+
+
   }
 
   onAddPhotoPath() {
     const control = new FormControl(null, Validators.required);
     (<FormArray>this.addItemForm.get('imagePaths')).push(control)
   }
+
+  onSubmit() {
+    this.changeItemInfoService.itemNewInfo = new Item ( 
+      this.addItemForm.value.name,
+      this.addItemForm.value.description,
+      null,
+      this.addItemForm.value.key,
+      this.addItemForm.value.incomeDate,
+      this.addItemForm.value.place,
+      this.addItemForm.value.type,
+      this.changeItemInfoService.itemToChange.id
+    );
+
+      this.changeItemInfoService.updateItem();
+   this.showComponentService.changeSceneTo('itemChanged'); 
+
+  }
+
 }

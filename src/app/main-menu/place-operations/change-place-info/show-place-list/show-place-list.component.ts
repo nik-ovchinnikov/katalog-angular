@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, Output, EventEmitter } from '@angular/cor
 
 import { Storage } from '../../../../shared/storage.model';
 import { NgForm } from '@angular/forms';
-import { ChangePlaceInfoService } from '../changePlaceInfo.service';
+import { ChangePlaceInfoService } from '../changePlaceInfo.service'; 
 import { ShowComponentService } from 'src/app/showComponent.service';
 
 @Component({
@@ -12,24 +12,25 @@ import { ShowComponentService } from 'src/app/showComponent.service';
 })
 export class ShowPlaceListComponent implements OnInit {
 
-  constructor(private changePlaceInfoService: ChangePlaceInfoService,
-              private showComponentService: ShowComponentService) { }
-
-  ngOnInit(){
-  }
-  //!! это заменяет запрос в базу данных
-  places: Storage[] = [
-    new Storage('Ризница'),
-    new Storage('Клирос Знаменского Храма'),
-    new Storage('Алтарь Спасского собора'),
-  ];
+  places: Storage[] = [];
 
   @ViewChild('f', { static: false })
   choosePlaceForm: NgForm;
 
+  constructor(private changePlaceInfoService: ChangePlaceInfoService,
+              private showComponentService: ShowComponentService) { }
+
+  ngOnInit(){
+    this.changePlaceInfoService.storageList = [];
+    this.changePlaceInfoService.getStorages();
+    this.changePlaceInfoService.onStorageListChanged.subscribe((storageListChanged: Storage[])=> {
+      this.places = storageListChanged;
+    });
+  }
+
 
   onSubmit() {
-    this.changePlaceInfoService.oldStorageInfo.name = this.choosePlaceForm.value.placeToChange;
+    this.changePlaceInfoService.getOldStorage(this.choosePlaceForm.value);
     this.showComponentService.changeSceneTo('changePlaceInfo');
 
   }

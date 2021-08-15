@@ -11,27 +11,25 @@ import { ShowComponentService } from 'src/app/showComponent.service';
 })
 export class ChosePlaceComponent implements OnInit {
 
+  @ViewChild('f', { static: false })
+  choosePlaceForm: NgForm;
+  places: Storage[] = [];
 
   constructor(private showComponentSercvice: ShowComponentService,
               public showAllPlaceItemsService: ShowAllPlaceItemsService
   ) { }
 
   ngOnInit(): void {
+    this.places = this.showAllPlaceItemsService.getStorageList();
   }
- //!! ЭТо запрос в БД 
-  places: Storage[] = [
-    new Storage('Ризница'),
-    new Storage('Клирос Знаменского Храма'),
-    new Storage('Алтарь Спасского собора'),
-  ];
 
-  @ViewChild('f', { static: false })
-  choosePlaceForm: NgForm;
 
 
   onSubmit() {
     this.showAllPlaceItemsService.chosenStorage.name = this.choosePlaceForm.value.placeToChange;
-    //!! Тут обращение к серверу, выборка предметов данной категории
+    this.showAllPlaceItemsService.getStorageItems();
     this.showComponentSercvice.changeSceneTo('placeItemsShown');
+
+
   }
 }
