@@ -71,11 +71,9 @@ export class AddItemStartComponent implements OnInit {
       this.addItemForm.value.imagePaths[0],
       this.addItemForm.value.key,
       this.addItemForm.value.incomeDate,
-      //Вместо них добавить объекты найденные по именам, имеющиеся в списке
-      //this.addItemForm.value.place,
-      //this.addItemForm.value.type,
+      this.addItemService.getStorageByName(this.addItemForm.value.place),
+      this.addItemService.getItemTypeByName(this.addItemForm.value.type),
     );
-   console.log(this.addItemForm.value.place);
    this.addItemService.addItem();
    this.showComponentService.changeSceneTo('onItemAdded'); 
 

@@ -9,9 +9,9 @@ export class Item {
         public imagePaths: string[] = [],
         public key: string = '',
         public incomeDate: Date = new Date(),
-        public storageName: string = '',    
-        public typeName: string = '',
-        public id: number = 0,
+        public storage: Storage = new Storage(), 
+        public itemType: ItemType = new ItemType(),
+        public id: number = -1,
         //размеры
     ) {}
 }

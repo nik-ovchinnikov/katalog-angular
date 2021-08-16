@@ -21,7 +21,6 @@ export class ShowAllItemsListComponent implements OnInit {
     this.showAllITemsService.getItems();
     this.showAllITemsService.listEmitter.subscribe((items) => {
       this.changeItemInfoService.items = items;
-      console.log(this.changeItemInfoService.items);
     });
   }
 

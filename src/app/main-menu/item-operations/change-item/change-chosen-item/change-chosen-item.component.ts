@@ -37,16 +37,18 @@ export class ChangeChosenItemComponent implements OnInit {
     this.recievedLists = this.changeItemInfoService.getLists();
     this.places = this.recievedLists[0];
     this.itemTypes = this.recievedLists[1];
-    console.log(this.changeItemInfoService.itemToChange.typeName);
-
+    // console.log(this.changeItemInfoService.itemToChange);
+    // console.log(this.places);
+    // console.log(this.itemTypes);
+    
     this.addItemForm = new FormGroup({
       "name": new FormControl(this.changeItemInfoService.itemToChange.name),
       "description": new FormControl(this.changeItemInfoService.itemToChange.description),
       "key": new FormControl(this.changeItemInfoService.itemToChange.key),
       "incomeDate": new FormControl(this.changeItemInfoService.itemToChange.incomeDate),
       "imagePaths": new FormArray([]),
-      "type": new FormControl( this.changeItemInfoService.itemToChange.typeName),
-      "place": new FormControl( this.changeItemInfoService.itemToChange.storageName),
+      "type": new FormControl( this.changeItemInfoService.itemToChange.itemType.name),
+      "place": new FormControl( this.changeItemInfoService.itemToChange.storage.name),
     });
     this.controlsImagePaths = (<FormArray>this.addItemForm.get('imagePaths')).controls;
     //this.controlsImagePaths = this.addItemForm.get('imagePaths').control;
@@ -54,7 +56,7 @@ export class ChangeChosenItemComponent implements OnInit {
     //    "type": this.itemTypes[0],
     //    "place": this.places[0],
     //  });
-
+    console.log(213121);
 
   }
 
@@ -70,9 +72,9 @@ export class ChangeChosenItemComponent implements OnInit {
       null,
       this.addItemForm.value.key,
       this.addItemForm.value.incomeDate,
-      this.addItemForm.value.place,
-      this.addItemForm.value.type,
-      this.changeItemInfoService.itemToChange.id
+      this.changeItemInfoService.getStorageByName(this.addItemForm.value.place),
+      this.changeItemInfoService.getItemTypeByName(this.addItemForm.value.type),
+      this.changeItemInfoService.itemToChange.id,
     );
 
       this.changeItemInfoService.updateItem();

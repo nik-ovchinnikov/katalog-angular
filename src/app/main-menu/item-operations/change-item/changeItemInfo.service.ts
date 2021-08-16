@@ -18,6 +18,9 @@ export class ChangeItemInfoService {
     items: Item[] = [];
     typeList: ItemType[] = [];
     placeList: Storage[] = [];
+//Для отправки измений. Это для поиска объекта класса по имени в форме
+    public chosenItemType: ItemType;
+    public chosenStorage: Storage;
 
 //Костыль. Избавляет от двойного нажатия из-за нескольких eventListener-ов
     changeButtonCounter = 0;
@@ -32,9 +35,11 @@ export class ChangeItemInfoService {
 
     //по айдишнику находит из массива элемент и записывает его в ИтемТуЧендж
     getChangeItem(id: string) {
+        console.log(this.items);
        this.items.forEach((item) => {
            if(item.key == id) {
             this.itemToChange = item;
+            console.log(this.itemToChange);
            }
        }); 
     }
@@ -60,7 +65,7 @@ export class ChangeItemInfoService {
     }
 
     public updateItem() {
-        console.log(this.itemNewInfo); 
+        // console.log(this.itemNewInfo); 
         if(this.counterUpdate == 0){
             this.http.put(
                 'http://localhost:8080/item/updateItem',
@@ -71,5 +76,25 @@ export class ChangeItemInfoService {
         }
         this.counterUpdate++;
         
+    }
+
+    public getItemTypeByName (typeName: string ): ItemType  {
+        this.chosenItemType = new ItemType();
+        for (let itemType of this.typeList) {
+            if (itemType.name == typeName) {
+                this.chosenItemType = itemType;
+            }
+        }
+        return this.chosenItemType;
+    }
+
+    public getStorageByName (storageName: string) {
+        for (let place of this.placeList) {
+            // console.log(place.name);
+            if (place.name == storageName) {
+                this.chosenStorage = place;
+            }
+        }
+        return this.chosenStorage;
     }
 }
