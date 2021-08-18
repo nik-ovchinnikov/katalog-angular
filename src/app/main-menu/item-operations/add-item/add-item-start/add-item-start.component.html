@@ -3,7 +3,7 @@
     <h2>Добавление нового предмета в каталог</h2>
     <form [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
         <div class="form-group add-input-form">
-            <label for="name">Введите имя нового предмета</label>
+            <label for="name">Введите имя нового предмета</label> 
             <input class="form-control name-input" 
                 type="text" 
                 id="name" 
@@ -27,16 +27,23 @@
                 placeholder="Введите  ключ"
                 formControlName="key"    
             >
-            <div formArrayName="imagePaths">
+            <div formArrayName="itemPictures">
                 <label>Введите название файлов с фотографиями </label> <br>
                 <button
                   class="btn btn-default"
                   type="button"
                   (click)="onAddPhotoPath()">Добавить aдресс фото</button>
                 <div
-                  class="form-group"
-                  *ngFor="let hobbyControl of controlsImagePaths; let i = index">
-                  <input type="text" class="form-control add-image-path" [formControlName]="i">
+                  class="form-group add-file"
+                  *ngFor="let itemPictures of controlsItemPictures; let i = index">
+                    <div>
+                        <input type="file" class="form-control add-image-path" [formControlName]="i" (change)="onFileAdded($event)">
+                        <button class="delete-photo-button" 
+                            (click)="onClickDeletePicture($event)"
+                            wasUploaded="false"
+                        >X</button>
+                    </div>
+                    <br>
                 </div>
             </div>
 
@@ -49,9 +56,15 @@
               <select class="form-control" name="type" id="type"  formControlName="type" >
                     <option *ngFor="let itemType of itemTypes" [value]="itemType.name" placeholder="Выбирите тип">{{ itemType.name }}</option>
               </select> 
+
+              
             <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
             <button class="btn btn-success add-item" type="submit">Добавить</button>
  
         </div>
     </form>
+         <!-- <h1>File Upload</h1>
+         <input type="file" (change)="onFileSeleceted($event)">
+         <button (click)="onUploadFile()"
+         >Upload</button> -->
 </div>

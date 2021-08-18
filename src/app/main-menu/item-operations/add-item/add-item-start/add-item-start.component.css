@@ -19,3 +19,11 @@ h2 {
     align-items: center;
     text-align: center;
 }
+
+.delete-photo-button {
+    color: rgb(199, 52, 52);
+}
+
+.add-image-path {
+    float: left;
+}

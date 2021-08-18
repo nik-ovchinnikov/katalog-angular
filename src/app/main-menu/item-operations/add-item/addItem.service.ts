@@ -45,12 +45,24 @@ export class AddItemService {
         });
     }
 
-    public addItem(){
+    public addItem(files: File[]){
+        
         this.http.post(
             'http://localhost:8080/item/addItem',
             this.addedItem
         ).subscribe(responseData => {
-           console.log(responseData);
+            //Запрос с добавлением файлов
+            for (let file of files) {
+                const fd = new FormData();
+                fd.append("file", file)
+                this.http.post(
+                  'http://localhost:8080/files/addFile',
+                  fd
+                ).subscribe( res => {
+                }
+                );
+                
+            }
         });
     }
 
