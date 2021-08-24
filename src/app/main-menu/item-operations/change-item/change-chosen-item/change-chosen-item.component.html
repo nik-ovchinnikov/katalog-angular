@@ -24,7 +24,8 @@
                 type="text" 
                 id="key" 
                 placeholder="Введите  ключ"
-                formControlName="key"    
+                formControlName="key"  
+                (keyup)="onKeyKey($event)" 
             >
             <!-- Ранее загруженные фото, сделать с функцией удалить  -->
             <div formArrayName="oldItemPictures">
@@ -72,7 +73,9 @@
                         >X</button>
                         <img 
                             class="add-photo-image"
-                        >
+                        > <span
+                        *ngIf="this.newPhotoNameIsExistFlag"
+                    >Данное название фото уже есть в каталоге. Переименуйте и загрузите заново</span>
                     </div>
                     <br>
                 </div>
@@ -88,7 +91,18 @@
                     <option *ngFor="let itemType of itemTypes" [value]="itemType.name">{{ itemType.name }}</option>
               </select> 
             <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
-            <button class="btn btn-success" type="submit">Изменить</button>
+            <button class="btn btn-success" type="submit"
+                [disabled]="
+                !this.changeItemForm.get('key').valid || 
+                !this.changeItemForm.get('name').valid || 
+                !this.changeItemForm.get('type').valid || 
+                !this.changeItemForm.get('place').valid || 
+                !this.changeItemForm.get('oldItemPictures').valid || 
+                this.keyIsExistFlag || 
+                this.oldPhotoNameIsExistFlag ||
+                this.newPhotoNameIsExistFlag
+                " 
+            >Изменить</button>
  
         </div>
     </form>

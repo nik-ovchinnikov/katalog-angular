@@ -1,31 +1,38 @@
 <div class="container"> 
-    <form  #f="ngForm"  (ngSubmit)="onSubmit()">
+    <form  [formGroup]="changeTypeForm"  (ngSubmit)="onSubmit()">
       <div class="form-group">
         <h4>Старое название - {{this.changeItemTypeService.oldItemTypeInfo.name}}</h4>
         <label for="">Новое название: </label>
         <input type="text"
           class="form-control" name="editedItemTypeName"
           id="" aria-describedby="helpId" 
-          placeholder="{{ this.changeItemTypeService.oldItemTypeInfo.name}}" 
-          ngModel
-          >
-        <small id="helpId" class="form-text text-muted">Введите новое название хранилища </small>
+          formControlName="name"
+          (keyup)="onKey($event)"
+        >
+          placeholder="{{ this.changeItemTypeService.oldItemTypeInfo.name}}"  
+        <small id="helpId" class="form-text text-muted">Введите новое название хранилища </small><br>
+        <span
+                *ngIf= "changeTypeForm.get('name').touched && this.nameExistFlag"
+            >Такое имя уже есть в каталоге. Введите другое</span>
 
-        <br><br>
+        <br>
         
         <h4>Старое описание- {{this.changeItemTypeService.oldItemTypeInfo.description}}</h4>
         <label for="">Новое описание: </label>
         <textarea type="text"
           class="form-control" name="editedItemTypeDescription"
           id="" aria-describedby="helpId" 
-          placeholder="{{ this.changeItemTypeService.oldItemTypeInfo.description}}" 
-          ngModel
+          formControlName="description"
           ></textarea>
         <small id="helpId" class="form-text text-muted">Введите новое название хранилища </small>
       </div>
       
       <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
-      <button class="btn btn-success" type="submit">Изменить</button>
+      <button class="btn btn-success" type="submit"
+        [disabled]="
+        !this.changeTypeForm.get('name').valid || 
+        this.nameExistFlag"
+      >Изменить</button>
     </form>
 </div>
 

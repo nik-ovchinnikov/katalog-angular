@@ -7,6 +7,8 @@ import { Storage } from '../../../../shared/storage.model'
 import { ItemType } from 'src/app/shared/itemType.model';
 import { AddItemService } from '../../add-item/addItem.service';
 import { ItemPicture } from 'src/app/shared/itemPicture.model';
+import { HttpClient } from '@angular/common/http';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-change-chosen-item',
@@ -32,13 +34,20 @@ export class ChangeChosenItemComponent implements OnInit {
   //объекты для записи
   itemPicturesToWrite: ItemPicture[] = [];
   itemPicturesToUpdate: ItemPicture[] = [];
-  itemPictureOld: ItemPicture[] = null;
+  itemPictureOld: ItemPicture[] = [];
   itemPictureNew: ItemPicture[] = [];
   //для отображения старых картинок
   formArrayOldPictures: FormArray;
+
+  //для валидации формы
+  keyIsExistFlag: boolean = false;
+  newPhotoNameIsExistFlag: boolean = false;
+  oldPhotoNameIsExistFlag: boolean = false;
   
    constructor(private changeItemInfoService: ChangeItemInfoService, 
-                private showComponentService: ShowComponentService) { }
+                private showComponentService: ShowComponentService,
+                private http: HttpClient,
+                ) { }
 
    
 
@@ -55,18 +64,22 @@ export class ChangeChosenItemComponent implements OnInit {
     this.itemTypes = this.recievedLists[1];
     //уже имеющиеся ItemPictures на серевере
     this.itemPictureOld = this.itemPictureOld.concat(this.changeItemInfoService.itemToChange.itemPicture);
+    //Object.assign(this.itemPictureNew, this.itemPictureOld);
+    // this.itemPictureOld.forEach(elem => {
+    //   this.itemPictureNew.push(elem);
+    // });
     //Добавим их в список отображения
     //У них только кнопка удалить и imput c названием файла на серверю плюс preview
     this.changeItemForm = new FormGroup({
-      "name": new FormControl(this.changeItemInfoService.itemToChange.name),
+      "name": new FormControl(this.changeItemInfoService.itemToChange.name, [Validators.required]),
       "description": new FormControl(this.changeItemInfoService.itemToChange.description),
-      "key": new FormControl(this.changeItemInfoService.itemToChange.key),
+      "key": new FormControl(this.changeItemInfoService.itemToChange.key, [Validators.required]),
       "incomeDate": new FormControl(this.changeItemInfoService.itemToChange.incomeDate),
       //показать в форме те, что уже есть в ItemPictures
       "oldItemPictures": new FormArray([]),
       "itemPictures": new FormArray([]),
-      "type": new FormControl( this.changeItemInfoService.itemToChange.itemType.name),
-      "place": new FormControl( this.changeItemInfoService.itemToChange.storage.name),
+      "type": new FormControl( this.changeItemInfoService.itemToChange.itemType.name, [Validators.required]),
+      "place": new FormControl( this.changeItemInfoService.itemToChange.storage.name, [Validators.required]),
     });
     this.controlsItemPictures = (<FormArray>this.changeItemForm.get('itemPictures')).controls;
     this.controlsOldItemPictures = (<FormArray>this.changeItemForm.get('oldItemPictures')).controls;
@@ -75,7 +88,7 @@ export class ChangeChosenItemComponent implements OnInit {
     //Добавим данные о всех старых фото
     this.formArrayOldPictures = (<FormArray>this.changeItemForm.get('oldItemPictures'));
     for (let itemPicture of this.itemPictureOld) {
-      this.formArrayOldPictures.push(new FormControl(itemPicture.name))
+      this.formArrayOldPictures.push(new FormControl(itemPicture.name, [Validators.required]))
     }
 
     //создание массива для внесения изменений
@@ -83,6 +96,8 @@ export class ChangeChosenItemComponent implements OnInit {
       itemPicture2.previousName = itemPicture2.name;
       this.itemPictureNew.push(itemPicture2);
     }
+    // this.itemPictureNew = Array.from(this.itemPictureOld);
+   
   }
 
 
@@ -96,7 +111,7 @@ export class ChangeChosenItemComponent implements OnInit {
       ));
     }
     //Записываем новые и изменённые объекты фото для отправки на сервер
-    this.itemPicturesToUpdate.concat(this.itemPictureNew.concat(this.itemPicturesToWrite));
+    //this.itemPicturesToUpdate.concat(this.itemPictureNew.concat(this.itemPicturesToWrite));
     for (let ip of this.itemPictureNew) {
       this.itemPicturesToUpdate.push(ip);
     }
@@ -130,6 +145,21 @@ export class ChangeChosenItemComponent implements OnInit {
 
   //Действия после добавления файла
   onFileAdded(event) {
+
+ //Запрос к серверу на уникальность
+ let addedFileName: string = event.target.files[0].name; 
+ this.http.get(
+   this.showComponentService.serverPath + '/item/photoNameIsExist/' + addedFileName
+ ).subscribe(responseData => {
+   //понятия не имею, почему не передавалось присваиванием
+   if(
+    (responseData == true) 
+     ) {
+     this.newPhotoNameIsExistFlag = true;
+   }else {
+     this.newPhotoNameIsExistFlag = false;
+   }
+ });
 
     //возможность двойной загрузки через одно окно, надо удалять при повторном загрузке
     if(event.target.nextSibling.getAttribute("wasUploaded") == "false"){
@@ -184,17 +214,42 @@ export class ChangeChosenItemComponent implements OnInit {
   //После изменения имени фото
   onKeyOldPictureName(event) {
     //запрос на уникальность, преобразование формы (разрешение на отправку)
+    this.http.get(
+      this.showComponentService.serverPath + '/item/photoNameIsExist/' + event.target.value
+    ).subscribe(responseData => {
+      //понятия не имею, почему не передавалось присваиванием
+      //По id найдём itemPicture
+      let currentItemPicture: ItemPicture = null;
 
-    //изменеие в массиве
-      //добыть id
-      let changedItemPictureId = event.target.id
-      for (let itemPicture of this.itemPictureNew) {
-        // по Id сделать изменение
-        if(itemPicture.id == changedItemPictureId){
-          itemPicture.name = event.target.value
+      for(let itemPicture of this.itemPictureOld) {
+        if(itemPicture.id == event.target.id) {
+          currentItemPicture = itemPicture;
         }
       }
+      
+      if(
+        (responseData == true) &&
+        (event.target.value != currentItemPicture.previousName)
+      ) {
+        this.oldPhotoNameIsExistFlag = true;
+      }else {
+        this.oldPhotoNameIsExistFlag = false;
+        //изменеие в массиве
+        //добыть id
+        let changedItemPictureId = event.target.id
+        for (let itemPicture of this.itemPictureNew) {
+          // по Id сделать изменение
+          if(itemPicture.id == changedItemPictureId){
+            itemPicture.name = event.target.value
+          }
+        }
+
+        console.log(this.itemPictureNew);
+        console.log(this.itemPictureOld);
+      }
+    });
   }
+
   //После удалении старого фото
   onClickDeleteOldPicture(event) {
     event.preventDefault();
@@ -207,4 +262,26 @@ export class ChangeChosenItemComponent implements OnInit {
     }
     event.target.parentNode.parentNode.remove();
   }
+
+  onKeyKey(event) {
+    this.http.get(
+      this.showComponentService.serverPath + '/item/keyIsExist/' + event.target.value
+    ).subscribe(responseData => {
+      let oldName: string = this.changeItemInfoService.itemToChange.key;
+      //понятия не имею, почему не передавалось присваиванием
+      // console.log('аыфваыфаыф' == oldName);
+      // console.log(event.target.value.trim());
+      // console.log(event.target.value.trim() == oldName);
+      // console.log('df' === 'df');
+      if(
+        (responseData == true) &&
+        (event.target.value != this.changeItemInfoService.itemToChange.key)
+      ){ 
+          this.keyIsExistFlag = true;
+      } else {
+        this.keyIsExistFlag = false;
+      }
+    });
+  }
+
 }

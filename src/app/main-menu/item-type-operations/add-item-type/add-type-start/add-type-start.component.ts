@@ -38,7 +38,7 @@ export class AddTypeStartComponent implements OnInit {
   onKey(event) {
     this.http.get(
       this.showComponentService.serverPath + '/itemType/isExist/' + event.target.value
-    ).subscribe(responseData => {
+    ).subscribe(responseData => { 
       //понятия не имею, почему не передавалось присваиванием
       if(responseData == true) {
         this.nameExistFlag = true;
