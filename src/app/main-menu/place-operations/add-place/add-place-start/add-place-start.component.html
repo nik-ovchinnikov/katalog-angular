@@ -1,12 +1,17 @@
 <div class="container">
-    <form [formGroup]="addPlaceForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="addPlaceForm" (ngSubmit)="onSubmit()"> 
         <div class="form-group add-input-form">
             <label for="name"> Имя нового места хранения</label>
             <input class="form-control name-input" 
             type="text" 
             id="name" 
             placeholder="Введите название"
-            formControlName="name"> 
+            formControlName="name"
+            (keyup)="onKey($event)"
+            > 
+            <span
+            *ngIf= "addPlaceForm.get('name').touched && this.nameExistFlag"
+        >Такое имя уже есть в каталоге. Введите другое</span><br>
             <label for="description"> Описание нового места хранения</label>
             
             <textarea class="form-control name-input" 
@@ -14,7 +19,10 @@
             id="description" 
             placeholder="Введите описание"
             formControlName="description"> </textarea>
-            <button class="btn btn-success" type="submit" id="onplaceAdded">Добавить</button>
+            <button class="btn btn-success" type="submit" id="onplaceAdded"
+            [disabled]="!this.addPlaceForm.get('name').valid || 
+                this.nameExistFlag"
+            >Добавить</button>
             <button class="btn btn-primary to-main-menu btn-scope" id="mainMenu">Главное меню</button>
         </div>
     </form>

@@ -5,6 +5,7 @@ import { ShowAllItemTypeService } from '../../item-type-operations/shoe-all-item
 import { ItemType } from 'src/app/shared/itemType.model';
 import { Storage } from 'src/app/shared/storage.model'
 import { HttpClient } from '@angular/common/http';
+import { ShowComponentService } from 'src/app/showComponent.service';
 @Injectable()
 export class AddItemService {
     public addedItem: Item;
@@ -18,7 +19,8 @@ export class AddItemService {
     constructor(
         private showAllItemTypesservice: ShowAllItemTypeService,
         private showAllPlaceService: ShowAllPlacesService,
-        private http: HttpClient
+        private http: HttpClient,
+        private showComponentService: ShowComponentService
     ) {}
 
     public getLists() {
@@ -48,20 +50,17 @@ export class AddItemService {
     public addItem(files: File[]){
         
         this.http.post(
-            'http://localhost:8080/item/addItem',
+            this.showComponentService.serverPath + '/item/addItem',
             this.addedItem
         ).subscribe(responseData => {
             //Запрос с добавлением файлов
             for (let file of files) {
                 const fd = new FormData();
-                fd.append("file", file)
+                fd.append("file", file);
                 this.http.post(
-                  'http://localhost:8080/files/addFile',
+                  this.showComponentService.serverPath + '/files/addFile',
                   fd
-                ).subscribe( res => {
-                }
-                );
-                
+                ).subscribe( res => {});
             }
         });
     }
@@ -78,7 +77,6 @@ export class AddItemService {
 
     public getStorageByName (storageName: string) {
         for (let place of this.placeList) {
-            console.log(place.name);
             if (place.name == storageName) {
                 this.chosenStorage = place;
             }

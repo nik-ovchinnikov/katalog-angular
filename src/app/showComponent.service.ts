@@ -1,4 +1,7 @@
 export class ShowComponentService {
+
+    public serverPath: string = "http://localhost:8080";
+
     public valueStatusCollection = {
         mainMenu: true,
         

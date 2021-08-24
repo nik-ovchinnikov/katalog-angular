@@ -4,9 +4,12 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Имя</th>
+                    <th>Имя</th> 
                     <th>Описание</th>
                     <th>Ключ</th>
+                    <th>Место Хранения</th>
+                    <th>Тип</th>
+                    <th>Фото</th>
                 </tr>
             </thead>
             <tbody *ngFor="let item of this.changeItemInfoService.items; let i = index">
@@ -15,6 +18,10 @@
                     <td>{{ item.name }}</td>
                     <td>{{item.description}}</td>
                     <td>{{ item.key }}</td>
+                    <td>{{ item.storage.name}}</td>
+                    <td>{{ item.itemType.name}}</td>
+                    <td *ngFor="let itemPicture of item.itemPicture"><img src="{{ itemPicture.path + itemPicture.name }}"></td>
+                    <!-- <td *ngFor="let itemPicture of item.itemPicture"></td> -->
                     <td><div class="btn primary-btn change-btn" id="{{ item.key }}">Изменить</div></td>
                 </tr>
                 

@@ -1,6 +1,7 @@
 import { Storage } from '../../../shared/storage.model' 
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ShowComponentService } from 'src/app/showComponent.service';
 
 @Injectable()
 export class ChangePlaceInfoService {
@@ -10,11 +11,12 @@ export class ChangePlaceInfoService {
     public storageList: Storage[] = [];
     public onStorageListChanged = new EventEmitter<Storage[]>();
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient,
+        private showComponentService: ShowComponentService) {}
 
     public getStorages() {
         this.http.get(
-            'http://localhost:8080/storage/getAll',
+           this.showComponentService.serverPath + '/storage/getAll',
         ).subscribe(responseData => {
             for (let elem in responseData) {
                 this.storageList.push(
@@ -28,7 +30,6 @@ export class ChangePlaceInfoService {
 
     public getOldStorage (id: number) {
         for (let storage of this.storageList) {
-            console.log(storage);
             if (storage.id == id["placeToChange"]) {
                 this.oldStorageInfo = storage;
             }

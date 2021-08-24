@@ -1,6 +1,7 @@
 import { ItemType } from 'src/app/shared/itemType.model';
 import { EventEmitter, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ShowComponentService } from 'src/app/showComponent.service';
 
 @Injectable()
 export class ChangeItemTypeService {
@@ -10,11 +11,13 @@ export class ChangeItemTypeService {
     public itemTypeList: ItemType[] = [];
     public onListChanged = new EventEmitter<ItemType[]>();
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient,
+     private showComponentService: ShowComponentService,
+        ) {}
 
     public getItemTypes() {
         this.http.get(
-            'http://localhost:8080/itemType/getAll',
+            this.showComponentService.serverPath + '/itemType/getAll',
         ).subscribe(responseData => {
             for (let elem in responseData) {
                 this.itemTypeList.push(
@@ -42,7 +45,7 @@ export class ChangeItemTypeService {
     public updateItemType() {
         //console.log(this.newStorageInfo); 
         this.http.put(
-            'http://localhost:8080/itemType/updateItemType',
+           this.showComponentService.serverPath + '/itemType/updateItemType',
             this.newItemTypeInfo
         ).subscribe(responseData => {
             console.log(responseData);

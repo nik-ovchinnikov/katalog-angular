@@ -1,6 +1,6 @@
 
 <div class="container"> 
-    <h2>Добавление нового предмета в каталог</h2>
+    <h2>Добавление нового предмета </h2>
     <form [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
         <div class="form-group add-input-form">
             <label for="name">Введите имя нового предмета</label> 
@@ -10,8 +10,10 @@
                 placeholder="Введите название"
                 formControlName="name"    
             >
-            
-            <label for="description">Введите описание для предмета</label>
+            <span
+                *ngIf= "addItemForm.get('name').touched && !addItemForm.get('name').valid"
+            >Введите название предмета</span><br>
+            <label for="description">Введите описание предмета</label>
             <textarea class="form-control" 
                 name="" 
                 id="description" 
@@ -20,46 +22,68 @@
                 placeholder="Введите  описание"
             ></textarea>
 
-            <label for="key">Введите ключ в каталоге для предмета</label>
+            <label for="key">Введите ключ для предмета</label>
             <input class="form-control name-input" 
                 type="text" 
                 id="key" 
                 placeholder="Введите  ключ"
-                formControlName="key"    
-            >
+                formControlName="key"
+                (keyup)="onKey($event)"    
+            > 
+            <span
+                *ngIf= "addItemForm.get('key').touched && this.keyExistFlag"
+            >Предмет с таким ключём уже есть в каталоге. Введите другой</span><br>
             <div formArrayName="itemPictures">
-                <label>Введите название файлов с фотографиями </label> <br>
+                <label>Добавьте фотографии </label> <br>
                 <button
                   class="btn btn-default"
                   type="button"
-                  (click)="onAddPhotoPath()">Добавить aдресс фото</button>
+                  (click)="onAddPhotoPath()">Добавить фото</button>
                 <div
-                  class="form-group add-file"
+                  class="add-file"
                   *ngFor="let itemPictures of controlsItemPictures; let i = index">
                     <div>
-                        <input type="file" class="form-control add-image-path" [formControlName]="i" (change)="onFileAdded($event)">
+                        <input type="file"
+                            class="add-image-path" 
+                            [formControlName]="i" 
+                            (change)="onFileAdded($event)" 
+                        >
                         <button class="delete-photo-button" 
                             (click)="onClickDeletePicture($event)"
                             wasUploaded="false"
                         >X</button>
+                        <img 
+                            class="add-photo-image"
+                        ><span
+                            *ngIf="this.photoNameIsExistFlag"
+                        >Данное название фото уже есть в каталоге. Переименуйте и загрузите заново</span>
                     </div>
                     <br>
                 </div>
             </div>
 
-              <label for="">Выбирите место расположение предмета</label>
-              <select class="form-control" name="place" id="place" formControlName="place" >
-                    <option *ngFor="let place of places" [value]="place.name">{{ place.name }}</option>
+              <label for="">Выбирите место расположение</label>
+              <select class="form-control" id="place" formControlName="place" >
+                    <option *ngFor="let place of places" [value]="place.name" >{{ place.name }}</option>
               </select> 
 
-              <label for="">Выбирите тип предмета</label>
+              <label for="">Выбирите тип</label>
               <select class="form-control" name="type" id="type"  formControlName="type" >
-                    <option *ngFor="let itemType of itemTypes" [value]="itemType.name" placeholder="Выбирите тип">{{ itemType.name }}</option>
+                    <option *ngFor="let itemType of itemTypes" [ngValue]="itemType.name">{{ itemType.name }}</option>
               </select> 
 
               
             <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
-            <button class="btn btn-success add-item" type="submit">Добавить</button>
+            <button class="btn btn-success add-item" type="submit"
+                [disabled]="
+                !this.addItemForm.get('key').valid || 
+                !this.addItemForm.get('name').valid || 
+                !this.addItemForm.get('type').valid || 
+                !this.addItemForm.get('place').valid || 
+                this.keyExistFlag ||
+                this.photoNameIsExistFlag 
+                " 
+            >Добавить</button>
  
         </div>
     </form>

@@ -22,8 +22,13 @@ h2 {
 
 .delete-photo-button {
     color: rgb(199, 52, 52);
+    float: left;
 }
 
 .add-image-path {
     float: left;
+}
+
+.add-photo-image {
+    width: 200px;
 }

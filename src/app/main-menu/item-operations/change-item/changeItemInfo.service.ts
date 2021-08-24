@@ -1,5 +1,5 @@
 import { Item } from 'src/app/shared/item.model';
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, Sanitizer } from '@angular/core';
 import { Button } from 'src/app/button.service';
 import { ItemType } from 'src/app/shared/itemType.model';
 import { Storage } from '../../../shared/storage.model'
@@ -26,20 +26,26 @@ export class ChangeItemInfoService {
     changeButtonCounter = 0;
     counterUpdate = 0;
 
+
     constructor(
         private showComponentService: ShowComponentService,
         private showAllPlaceService: ShowAllPlacesService,
         private showAllItemTypesservice: ShowAllItemTypeService,
         private http: HttpClient,
+        //Для допуска изображений
+        // private _sanitizer: Sanitizer,
     ) {}
+
+    //Для допуска изображений
+    // get getImg() {
+    //     return this._sanitizer.sanitize(SecurityContext.URL, `data:image/png;base64,${this.img}`);
+    // }
 
     //по айдишнику находит из массива элемент и записывает его в ИтемТуЧендж
     getChangeItem(id: string) {
-        console.log(this.items);
        this.items.forEach((item) => {
            if(item.key == id) {
             this.itemToChange = item;
-            console.log(this.itemToChange);
            }
        }); 
     }
@@ -64,14 +70,23 @@ export class ChangeItemInfoService {
         return [this.placeList, this.typeList];
     }
 
-    public updateItem() {
-        // console.log(this.itemNewInfo); 
+    public updateItem(files: File[]) {
+        
+         console.log(this.counterUpdate); 
         if(this.counterUpdate == 0){
             this.http.put(
-                'http://localhost:8080/item/updateItem',
+                this.showComponentService.serverPath + '/item/updateItem',
                 this.itemNewInfo
             ).subscribe(responseData => {
-                //console.log(responseData);
+                //выгрузка на сервер файлов новых(все новые файлы из массива файлов) из массива файлов
+                for(let file of files) {
+                       const fd = new FormData();
+                       fd.append("file", file); 
+                       this.http.post(
+                           this.showComponentService.serverPath + '/files/addFile',
+                           fd
+                       ).subscribe( res => {})
+                }
             });
         }
         this.counterUpdate++;
@@ -95,6 +110,6 @@ export class ChangeItemInfoService {
                 this.chosenStorage = place;
             }
         }
-        return this.chosenStorage;
+        return this.chosenStorage; 
     }
 }

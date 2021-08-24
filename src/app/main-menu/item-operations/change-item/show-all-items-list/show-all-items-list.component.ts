@@ -20,8 +20,10 @@ export class ShowAllItemsListComponent implements OnInit {
     this.changeItemInfoService.changeButtonCounter = 0;
     this.showAllITemsService.getItems();
     this.showAllITemsService.listEmitter.subscribe((items) => {
-      this.changeItemInfoService.items = items;
+      this.changeItemInfoService.items = items; 
+      console.log(this.changeItemInfoService.items);
     });
+    
   }
 
   ngAfterViewChecked(): void {

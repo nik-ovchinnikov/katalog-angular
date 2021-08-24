@@ -1,6 +1,7 @@
 import { Storage } from '../../../shared/storage.model'
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ShowComponentService } from 'src/app/showComponent.service';
  
 @Injectable()
 export class DeletePlaceService {
@@ -9,7 +10,8 @@ export class DeletePlaceService {
     storageList: Storage[] = [];
     onStorageListChanged = new EventEmitter<Storage[]>();
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient,
+        private showComponentService: ShowComponentService) {}
 
     public getDeletedStorage (id: number) {
         for (let storage of this.storageList) {
@@ -22,7 +24,7 @@ export class DeletePlaceService {
     public getStorages() {
         this.storageList = [];
         this.http.get(
-            'http://localhost:8080/storage/getAll',
+           this.showComponentService.serverPath + '/storage/getAll',
         ).subscribe(responseData => {
             for (let elem in responseData) {
                 this.storageList.push(
@@ -36,7 +38,7 @@ export class DeletePlaceService {
 
     public deleteStorages() {
         this.http.delete(
-            'http://localhost:8080/storage/deleteStorage/' + this.deletedStorage.name
+           this.showComponentService.serverPath + '/storage/deleteStorage/' + this.deletedStorage.name
         ).subscribe(responseData => {
             console.log(responseData);
         });

@@ -1,6 +1,6 @@
 <div class="container"> 
     <h2>Изменение предмета в каталог</h2>
-    <form [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="changeItemForm" (ngSubmit)="onSubmit()">
         <div class="form-group add-input-form">
             <label for="name">Введите нового имя предмета</label>
             <input class="form-control name-input" 
@@ -11,7 +11,7 @@
             >
             
             <label for="description">Введите новое описание для предмета</label>
-            <textarea class="form-control" 
+            <textarea class="form-control"
                 name="" 
                 id="description" 
                 rows="3"
@@ -19,23 +19,62 @@
                 placeholder="Введите  описание"  
             ></textarea>
 
-            <label for="key">Введите новый ключ в каталоге для предмета</label>
+            <label for="key">Введите новый ключ в каталоге для предмета</label> 
             <input class="form-control name-input" 
                 type="text" 
                 id="key" 
                 placeholder="Введите  ключ"
                 formControlName="key"    
             >
-            <div formArrayName="imagePaths">
-                <label>Введите название файлов с фотографиями </label> <br>
+            <!-- Ранее загруженные фото, сделать с функцией удалить  -->
+            <div formArrayName="oldItemPictures">
+                <label>Cтарые фотографии</label>
+                <div
+                    *ngFor="let itemPicture of this.itemPictureOld;  let i = index"
+                >
+                    <div>
+                        <input
+                            class="form-control name-input"
+                            [formControlName]="i" 
+                            type="text"
+                            (keyup)="onKeyOldPictureName($event)"
+                            [id]="itemPicture.id"
+                        >
+                        <button class="delete-photo-button" 
+                            (click)="onClickDeleteOldPicture($event)"
+                        >X</button>
+                        <img 
+                            class="add-photo-image"
+                            src="sdaf3"
+                        >
+                    </div>
+                    <!-- <br> -->
+                </div>
+            </div>
+            <div formArrayName="itemPictures">
+                <label>Добавление фотографии </label> <br>
                 <button
                   class="btn btn-default"
                   type="button"
-                  (click)="onAddPhotoPath()">Добавить aдресс фото</button>
+                  (click)="onAddPhotoPath()">Добавить фото</button>
                 <div
-                  class="form-group"
-                  *ngFor="let imgPathControl of controlsImagePaths; let i = index">
-                  <input type="text" class="form-control add-image-path" [formControlName]="i">
+                  class="add-file"
+                  *ngFor="let itemPictures of controlsItemPictures; let i = index">
+                    <div>
+                        <input type="file"
+                            class="add-image-path" 
+                            [formControlName]="i" 
+                            (change)="onFileAdded($event)" 
+                        >
+                        <button class="delete-photo-button" 
+                            (click)="onClickDeletePicture($event)"
+                            wasUploaded="false"
+                        >X</button>
+                        <img 
+                            class="add-photo-image"
+                        >
+                    </div>
+                    <br>
                 </div>
             </div>
 

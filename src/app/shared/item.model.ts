@@ -14,6 +14,7 @@ export class Item {
         public itemType: ItemType = new ItemType(),
         public id: number = -1,
         public photos: File[] = [],
+        // public imagePicturesURLs = null,
         //размеры
     ) {}
 

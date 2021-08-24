@@ -1,5 +1,3 @@
-
-
 <div class="container">
     <h2>Добавлен новый предмет в каталог</h2>
         <div class="form-group add-input-form">
@@ -14,8 +12,8 @@
 
             <div >
                 <label> Названия файлов с фотографиями </label> <br>
-                <ul *ngFor="let path of this.addItemService.addedItem.imagePaths">
-                    <li>{{ path }}</li>
+                <ul *ngFor="let itemPicture of this.addItemService.addedItem.itemPicture">
+                    <li>{{ itemPicture.name }}</li>
                 </ul>
             </div>
 

@@ -4,6 +4,7 @@ import { Storage } from 'src/app/shared/storage.model';
 import { HttpClient } from '@angular/common/http';
 import { ShowAllItemTypeService } from '../../item-type-operations/shoe-all-item-types/showAllItemTypes.service';
 import { Injectable } from '@angular/core';
+import { ShowComponentService } from 'src/app/showComponent.service';
 
 @Injectable()
 export class ShowAllTypeItemsService {
@@ -15,6 +16,7 @@ export class ShowAllTypeItemsService {
        constructor (
         private showAllTypeService: ShowAllItemTypeService,
         private http: HttpClient,
+        private showComponentService: ShowComponentService,
        ) {}
 
       getTypeList(): Storage[] {
@@ -25,7 +27,7 @@ export class ShowAllTypeItemsService {
    getTypeItems(): Item[] {
     this.itemsToShow = [];
     this.http.get(
-      'http://localhost:8080/item/getItemsByType/' + this.chosenType.name
+      this.showComponentService.serverPath + '/item/getItemsByType/' + this.chosenType.name
     ).subscribe(responseData => {
       console.log(responseData);
       for (let elem in responseData) {

@@ -32,6 +32,12 @@ export class AddItemStartComponent implements OnInit {
   selectedFiles: File[] = [];
   //объекты картинок для записи в базу
   itemPicturesToWrite: ItemPicture[] = [];
+
+  //для проверки уникальности ключа
+  keyExistFlag: boolean = false;
+  photoNameIsExistFlag: boolean = false;
+
+  testName = "asfsdfsdf"
   
    constructor(private addItemService: AddItemService, 
                 private showComponentService: ShowComponentService,
@@ -43,14 +49,15 @@ export class AddItemStartComponent implements OnInit {
   ngOnInit(): void {
     //связывает форму с шаблоном
     this.addItemForm = new FormGroup({
-      "name": new FormControl(null),
+      "name": new FormControl(null, [Validators.required]),
       "description": new FormControl(null),
-      "key": new FormControl(null),
+      "key": new FormControl(null, [Validators.required]),
       "incomeDate": new FormControl(new Date()),
       "itemPictures": new FormArray([]),
-      "place": new FormControl( this.placeDefault),
-      "type": new FormControl( this.typeDefault),
+      "place": new FormControl(null, [Validators.required]),
+      "type": new FormControl(null, [Validators.required]),
     });
+
     this.controlsItemPictures = (<FormArray>this.addItemForm.get('itemPictures')).controls;
 
     //Добыть с сервера Типы и места для селектов в шаблоне 
@@ -58,6 +65,7 @@ export class AddItemStartComponent implements OnInit {
     this.addItemService.storageListsChangedEmitter.subscribe((places) => {
       this.places = places;
       this.placeDefault = this.places[0].name;
+
     })
     this.addItemService.typesListsChangedEmitter.subscribe((types) => {
       this.itemTypes = types;
@@ -70,9 +78,9 @@ export class AddItemStartComponent implements OnInit {
     for (let file of this.selectedFiles) {
       this.itemPicturesToWrite.push(new ItemPicture(
         file.name,
-        this.addItemForm.value.key,
-        ""
+        this.addItemForm.value.id,
       ));
+      
     }
     //По названию из формы вытащить Место и Тип
     this.addItemService.addedItem = new Item ( 
@@ -100,13 +108,28 @@ export class AddItemStartComponent implements OnInit {
 
   //Действия после добавления файла
   onFileAdded(event) {
+    //Запрос к серверу на уникальность
+    let addedFileName: string = event.target.files[0].name; 
+    this.http.get(
+      this.showComponentService.serverPath + '/item/photoNameIsExist/' + addedFileName
+    ).subscribe(responseData => {
+      //понятия не имею, почему не передавалось присваиванием
+      if(responseData == true) {
+        this.photoNameIsExistFlag = true;
+      }else {
+        this.photoNameIsExistFlag = false;
+      }
+    });
+
 
     //возможность двойной загрузки через одно окно, надо удалять при повторном загрузке
     if(event.target.nextSibling.getAttribute("wasUploaded") == "false"){
 
       event.target.nextSibling.setAttribute("fileName", event.target.files[0].name);
       event.target.nextSibling.setAttribute("wasUploaded", "true");
-      
+      //проверка имени файла на уникальность
+
+
       //добавление файла в массив
       this.selectedFiles.push(event.target.files[0]);
     }else{
@@ -120,16 +143,26 @@ export class AddItemStartComponent implements OnInit {
       });
       this.selectedFiles.splice(this.selectedFiles.indexOf(fileToRemove), 1);
 
+      //проверка имени на уникальность
+
+
       //добавляем новое фото
       event.target.nextSibling.setAttribute("fileName", event.target.files[0].name);
       this.selectedFiles.push(event.target.files[0]);
       
     }
+    
+    //передадим этот файл в изображение
+    //перенести в службу!!!! addItem
+    const reader = new FileReader();
+    reader.onloadend = () => {
+     event.target.nextSibling.nextSibling.src = reader.result;  
+    }
+    reader.readAsDataURL(event.target.files[0]);
   }
 
   //после нажатия на кнопку "удалить"
   onClickDeletePicture(event) {
-    console.log(this.selectedFiles);
     event.preventDefault();
     let fileToRemove: File = null;
     let fileNameToRemove = event.target.getAttribute("fileName");
@@ -139,32 +172,22 @@ export class AddItemStartComponent implements OnInit {
       }
     });
     this.selectedFiles.splice(this.selectedFiles.indexOf(fileToRemove), 1);
-
-    //нужно ли удалять из ItemPictures
-
+    //непосредственно удаление
     event.target.parentNode.parentNode.remove();
     //Может удаляться без загруженного файла
   }
 
-  //Обработчик нажатия на кнопку удаления файла
-  //Забрать id того input, на который нажали и удалить соответствующий файл из массива 
-
-  //Если вместо выбранного файла, загружают другой, как удалить старый, если не первый щелчок на кнопку - массив счётчиков для сбора информации
-  //Забрать id того input, на который нажали и заменить соответствующий файл из массива новым файлом
-
-  //Тестировка с файлом
-  // onUploadFile() {
-  //   // this.selectedFile = 
-  //   const fd = new FormData();
-  //   fd.append("file", this.selectedFile)
-  //   this.http.post(
-  //     'http://localhost:8080/files/addFile',
-  //     fd
-  //   ).subscribe( res => {
-  //   }
-  //   );
-  // }
-
-  
-  
+  onKey(event) {
+    this.http.get(
+      this.showComponentService.serverPath + '/item/keyIsExist/' + event.target.value
+    ).subscribe(responseData => {
+      //понятия не имею, почему не передавалось присваиванием
+      if(responseData == true) {
+        this.keyExistFlag = true;
+      }else {
+        this.keyExistFlag = false;
+      }
+      console.log(this.keyExistFlag);
+    });
+  }
 }

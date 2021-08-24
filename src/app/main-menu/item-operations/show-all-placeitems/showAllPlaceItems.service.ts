@@ -5,6 +5,7 @@ import { ShowAllPlacesService } from '../../place-operations/show-all-places/sho
 import { ShowAllItemTypeService } from '../../item-type-operations/shoe-all-item-types/showAllItemTypes.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ShowComponentService } from 'src/app/showComponent.service';
 
 @Injectable()
 export class ShowAllPlaceItemsService {
@@ -16,6 +17,7 @@ export class ShowAllPlaceItemsService {
    constructor (
      private showAllPlaceService: ShowAllPlacesService,
      private http: HttpClient,
+     private showComponentService: ShowComponentService,
    ) {}
 
    getStorageList(): Storage[] {
@@ -27,7 +29,7 @@ export class ShowAllPlaceItemsService {
   getStorageItems(): Item[] {
       this.itemsToShow = [];
       this.http.get(
-        'http://localhost:8080/item/getItemsByStorage/' + this.chosenStorage.name
+        this.showComponentService.serverPath + '/item/getItemsByStorage/' + this.chosenStorage.name
     ).subscribe(responseData => {
       for (let elem in responseData) {
         this.itemsToShow.push(

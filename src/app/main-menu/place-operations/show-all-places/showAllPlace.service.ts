@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http'
 import { Storage } from 'src/app/shared/storage.model';
 import { Injectable, EventEmitter } from '@angular/core';
+import { ShowComponentService } from 'src/app/showComponent.service';
 
 @Injectable()
 export class ShowAllPlacesService { 
-    constructor (private http: HttpClient) {}
+    constructor (private http: HttpClient,
+        private showComponentService: ShowComponentService) {}
 
     storageList: Storage[] = [];
     listEmitter = new EventEmitter<Storage[]>();
@@ -12,7 +14,7 @@ export class ShowAllPlacesService {
     public getStorages() {
         this.storageList = [];
         this.http.get(
-            'http://localhost:8080/storage/getAll', 
+            this.showComponentService.serverPath + '/storage/getAll', 
         ).subscribe(responseData => {
             for (let elem in responseData) {
                 this.storageList.push(

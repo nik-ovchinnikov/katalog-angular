@@ -7,6 +7,8 @@
                     <th>Имя</th>
                     <th>Описание</th>
                     <th>Ключ</th>
+                    <th>Изображение</th>
+                    <th>Тип предмета</th>
                 </tr>
             </thead>
             <tbody *ngFor="let item of this.showAllPlaceItemsService.itemsToShow; let i = index">
@@ -15,6 +17,8 @@
                     <td>{{ item.name }}</td>
                     <td>{{item.description}}</td>
                     <td>{{ item.key }}</td>
+                    <td>####{{ item.name }}</td>
+                    <td>{{ item.itemType.name }}</td>
                 </tr>
                 
             </tbody>

@@ -12,8 +12,8 @@
 
             <div >
                 <label> Названия файлов с фотографиями </label> <br>
-                <ul *ngFor="let path of this.changeItemInfoService.itemNewInfo.imagePaths">
-                    <li>{{ path }}</li>
+                <ul *ngFor="let imagePicture of this.changeItemInfoService.itemNewInfo.itemPicture">
+                    <li>{{ imagePicture.name}}</li>
                 </ul>
             </div>
 

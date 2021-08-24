@@ -1,6 +1,7 @@
 import { ItemType } from 'src/app/shared/itemType.model';
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
+import { ShowComponentService } from 'src/app/showComponent.service';
 
 @Injectable()
 export class DeleteTypeService {
@@ -8,13 +9,15 @@ export class DeleteTypeService {
     itemTypeList: ItemType[] = [];
     onListChanged = new EventEmitter<ItemType[]>();
 
-    constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient,
+     private showComponentService: ShowComponentService,
+        ) {}
 
     public getItemTypes() {
         this.itemTypeList = [];
 
         this.http.get(
-            'http://localhost:8080/itemType/getAll',
+            this.showComponentService.serverPath + '/itemType/getAll',
         ).subscribe(responseData => {
             for (let elem in responseData) {
                 this.itemTypeList.push(
@@ -35,7 +38,7 @@ export class DeleteTypeService {
 
     public deleteTypes() {
         this.http.delete(
-            'http://localhost:8080/itemType/deleteItemType/' + this.deletedType.name
+            this.showComponentService.serverPath + '/itemType/deleteItemType/' + this.deletedType.name
         ).subscribe(responseData => {
             console.log(responseData);
         });

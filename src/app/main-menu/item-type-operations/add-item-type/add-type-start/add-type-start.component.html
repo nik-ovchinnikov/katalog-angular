@@ -3,18 +3,27 @@
         <div class="form-group add-input-form">
             <label for="name"> Имя нового типа предметов</label>
             <input class="form-control name-input" 
-            type="text" 
-            id="name" 
-            placeholder="Введите название"
-            formControlName="name"> 
+                type="text" 
+                id="name" 
+                placeholder="Введите название" 
+                formControlName="name"
+                (keyup)="onKey($event)"
+            > 
+            <span
+                *ngIf= "addTypeForm.get('name').touched && this.nameExistFlag"
+            >Такое имя уже есть в каталоге. Введите другое</span><br>
 
             <label for="name"> Описание нового типа предметов</label>
             <textarea class="form-control name-input" 
-            type="text" 
-            id="description" 
-            placeholder="Введите описание"
-            formControlName="description"> </textarea>
-            <button class="btn btn-success" type="submit" id="onplaceAdded">Добавить</button>
+                type="text" 
+                id="description" 
+                placeholder="Введите описание"
+                formControlName="description"> </textarea>
+            <button class="btn btn-success" type="submit" id="onplaceAdded" 
+                [disabled]="
+                !this.addTypeForm.get('name').valid || 
+                this.nameExistFlag"
+            >Добавить</button>
             <button class="btn btn-primary to-main-menu btn-scope" id="mainMenu">Главное меню</button>
         </div>
     </form>

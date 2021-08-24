@@ -42,7 +42,7 @@ export class DeleteItemService {
 
     public deleteItem() {
         this.http.delete(
-            'http://localhost:8080/item/deleteItem/' + this.itemToDelete.key
+            this.showComponentService.serverPath + '/item/deleteItem/' + this.itemToDelete.key
         ).subscribe(responseData => {
             console.log(responseData);
         });
