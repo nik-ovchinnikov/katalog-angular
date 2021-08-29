@@ -13,7 +13,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 })
 export class ShowAllItemsComponent implements OnInit {
 
-  private itemsList: Item[] = [];
+  public itemsList: Item[] = [];
 
   constructor(private showAllItemsService: ShowAllItemsService,
     private sanitizer: DomSanitizer,
@@ -25,7 +25,7 @@ export class ShowAllItemsComponent implements OnInit {
       this.itemsList = items;
       for (let item of this.itemsList) {
         for (let ip of item.itemPicture) {
-          ip.trustedURL = this.sanitizer.bypassSecurityTrustUrl(ip.path + ip.name);
+          ip.trustedURL = this.sanitizer.bypassSecurityTrustUrl(ip.path + ip.name); 
           //console.log(ip.trustedURL);
         }
       }

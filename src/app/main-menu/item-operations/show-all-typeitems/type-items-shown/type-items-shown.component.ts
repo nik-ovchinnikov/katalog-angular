@@ -10,7 +10,7 @@ export class TypeItemsShownComponent implements OnInit {
 
 
   constructor(
-    private showAllTypeItemsService: ShowAllTypeItemsService    
+    public showAllTypeItemsService: ShowAllTypeItemsService    
   ) { }
   ngOnInit(): void {
   }

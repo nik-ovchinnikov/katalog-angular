@@ -9,7 +9,7 @@ import { DeleteTypeService } from '../deleteType.service';
 export class TypeDeletedComponent implements OnInit {
 
   constructor(
-    private deleteTypeService: DeleteTypeService
+    public deleteTypeService: DeleteTypeService
   ) { }
 
   ngOnInit(): void {

@@ -2,3 +2,7 @@
     background-color:rgb(103, 101, 245);
     color: aliceblue; 
 }
+
+.demo-item-photo {
+    width: 80px;
+}

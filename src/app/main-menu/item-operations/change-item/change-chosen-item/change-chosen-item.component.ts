@@ -263,7 +263,7 @@ export class ChangeChosenItemComponent implements OnInit {
     event.target.parentNode.parentNode.remove();
   }
 
-  onKeyKey(event) {
+  onKeyKey(event) { 
     this.http.get(
       this.showComponentService.serverPath + '/item/keyIsExist/' + event.target.value
     ).subscribe(responseData => {
@@ -271,17 +271,22 @@ export class ChangeChosenItemComponent implements OnInit {
       //понятия не имею, почему не передавалось присваиванием
       // console.log('аыфваыфаыф' == oldName);
       // console.log(event.target.value.trim());
-      // console.log(event.target.value.trim() == oldName);
+      // console.log(event.target.value.trim() == oldName); 
       // console.log('df' === 'df');
       if(
         (responseData == true) &&
-        (event.target.value != this.changeItemInfoService.itemToChange.key)
+        (event.target.value != this.changeItemInfoService.itemToChange.key) 
       ){ 
           this.keyIsExistFlag = true;
       } else {
-        this.keyIsExistFlag = false;
+        this.keyIsExistFlag = false; 
       }
     });
+  }
+
+  onEnterOldPicture(event) {
+    event.preventDefault();
+    console.log(1231312);
   }
 
 }

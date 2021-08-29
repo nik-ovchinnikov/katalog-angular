@@ -13,16 +13,28 @@ export class ShowAllItemTypeService {
     typeList: ItemType[] = [];
     listEmitter = new EventEmitter<ItemType[]>();
 
-    public getItemTypes() {
+    public getItemTypes(showAbsendFlag: boolean = true) {
         this.typeList = [];
         this.http.get(
            this.showComponentService.serverPath + '/itemType/getAll',
         ).subscribe(responseData => {
-            for (let elem in responseData) {
-                this.typeList.push(
-                    responseData[elem]
-                );
-            }
+            //исключает "Отсутствует", гду флаг, остальные добавляет
+            if(!showAbsendFlag){
+                for (let elem in responseData) {
+                    if((responseData[elem].id != -1) 
+                    ) {
+                        this.typeList.push(
+                            responseData[elem]
+                        );
+                    }
+                }
+            }else{
+                for (let elem in responseData) {
+                    this.typeList.push(
+                        responseData[elem]
+                    );
+                }
+            }    
             this.listEmitter.emit(this.typeList);
         });
         return this.typeList;

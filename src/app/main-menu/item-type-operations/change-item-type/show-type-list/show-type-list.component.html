@@ -1,24 +1,29 @@
 <div class="container"> 
     <h3>Список типов предметов. Выберите, какой нужно редактировать.</h3>
     <form  #f="ngForm"  (ngSubmit)="onSubmit()">
-        <div class="container" *ngFor = "let type of types">
-            <div class="form-check"
-                    >
-                <label class="form-check-label">
-                <input class="form-check-input"
-                    name="typeToChange"
-                    id="" type="radio"
-                    value={{type.name}}
-                    aria-label="Список типов предметов: "
-                    ngModel
-                     >
-                {{ type.name}}
-                </label>
+        <div class="input-group mb-3">
+            <div class="container input-group-prepend" *ngFor = "let type of types">
+                <div class="form-check input-group-text"
+                        >
+                    <label class="form-check-label">
+                    <input class="form-check-input"
+                        name="typeToChange"
+                        id="" type="radio"
+                        value={{type.name}}
+                        aria-label="Список типов предметов: "
+                        ngModel
+                        required
+                        >
+                    {{ type.name}}
+                    </label>
+                </div>
             </div>
         </div>
         <div class="container">
             <button class="btn btn-primary btn-scope" id=mainMenu>Главное меню</button>
-            <button class="btn btn-success" type="submit">Изменить</button>
+            <button class="btn btn-success" type="submit"
+                [disabled]="!f.valid"
+            >Изменить</button>
         </div>
     </form>
 

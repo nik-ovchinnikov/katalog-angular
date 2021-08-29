@@ -1,30 +1,32 @@
 <div class="container"> 
-    <form  #f="ngForm"  (ngSubmit)="onSubmit()">
+    <form  [formGroup]="changePlaceForm"  (ngSubmit)="onSubmit()">
       <div class="form-group">
         <h4>Старое название - {{this.changePlaceInfoService.oldStorageInfo.name}}</h4>
         <label for="">Новое название: </label>
         <input type="text"
           class="form-control" name="editedPlaceName"
           id="" aria-describedby="helpId" 
-          placeholder="{{ this.changePlaceInfoService.oldStorageInfo.name}}" 
-          ngModel
+          formControlName="name"
+          (keyup)="onKey($event)"
           >
         <small id="helpId" class="form-text text-muted">Введите новое название хранилища </small>
         <br>
-        <br>
+        <br> 
 
         <label for="">Новое описание: </label>
         <textarea type="input"
           class="form-control" name="editedPlaceDescription"
           id="" aria-describedby="helpId" 
-          placeholder="{{ this.changePlaceInfoService.oldStorageInfo.description}}" 
-          ngModel
+          formControlName="description"
           ></textarea>
         <small id="helpId" class="form-text text-muted">Введите новое описание хранилища </small>
       </div>
       
       <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
-      <button class="btn btn-success" type="submit">Изменить</button>
+      <button class="btn btn-success" type="submit"
+        [disabled]="!this.changePlaceForm.get('name').valid || 
+        this.nameExistFlag"
+      >Изменить</button>
     </form>
 </div>
 

@@ -15,6 +15,6 @@ export class ShoeAllItemTypesComponent implements OnInit {
   constructor(private showAllItemTypesService: ShowAllItemTypeService) { }
 
   ngOnInit(): void {
-    this.types = this.showAllItemTypesService.getItemTypes();
+    this.types = this.showAllItemTypesService.getItemTypes(false);
   }
 }

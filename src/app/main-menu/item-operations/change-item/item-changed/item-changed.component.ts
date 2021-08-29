@@ -9,7 +9,7 @@ import { ChangeItemInfoService } from '../changeItemInfo.service';
 export class ItemChangedComponent implements OnInit {
 
   constructor(
-    private changeItemInfoService: ChangeItemInfoService
+    public changeItemInfoService: ChangeItemInfoService
   ){}
 
   ngOnInit(): void {

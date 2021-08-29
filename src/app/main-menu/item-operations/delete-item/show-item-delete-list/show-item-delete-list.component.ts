@@ -12,8 +12,8 @@ import { ShowAllItemsService } from '../../show-all-items/showAllItems.service';
 export class ShowItemDeleteListComponent implements OnInit {
 
   constructor(
-    private deleteItemService: DeleteItemService,
-    private showAllItemsService: ShowAllItemsService,
+    public deleteItemService: DeleteItemService,
+    public showAllItemsService: ShowAllItemsService,
   ) { }
 
   ngOnInit(): void { 

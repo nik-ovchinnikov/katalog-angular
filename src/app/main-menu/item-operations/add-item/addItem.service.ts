@@ -24,8 +24,8 @@ export class AddItemService {
     ) {}
 
     public getLists() {
-        this.showAllPlaceService.getStorages();
-        this.showAllItemTypesservice.getItemTypes();
+        this.showAllPlaceService.getStorages(false);
+        this.showAllItemTypesservice.getItemTypes(false); 
 
         this.showAllPlaceService.listEmitter.subscribe((storage) => {
             this.placeList = [];

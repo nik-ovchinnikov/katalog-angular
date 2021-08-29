@@ -8,10 +8,19 @@ import { ShowComponentService } from '../showComponent.service';
 })
 export class MainMenuComponent implements OnInit {
 
-
   constructor(private showComponentService: ShowComponentService) { }
 
   ngOnInit(): void {
+    document.addEventListener("keydown", this.blockEnter);
+  }
+
+  //Исправляет ошибку. ПРи нажатии на Enter в input нажималась соседняя кнопка
+  blockEnter(event){
+    
+    if(event.key == "Enter") {
+      console.log("enter");
+      event.preventDefault();
+    }
   }
 
 }

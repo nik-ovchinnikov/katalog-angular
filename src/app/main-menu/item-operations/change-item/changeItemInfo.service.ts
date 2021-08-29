@@ -24,7 +24,7 @@ export class ChangeItemInfoService {
 
 //Костыль. Избавляет от двойного нажатия из-за нескольких eventListener-ов
     changeButtonCounter = 0;
-    counterUpdate = 0;
+    counterUpdate = 0; 
 
 
     constructor(
@@ -32,19 +32,13 @@ export class ChangeItemInfoService {
         private showAllPlaceService: ShowAllPlacesService,
         private showAllItemTypesservice: ShowAllItemTypeService,
         private http: HttpClient,
-        //Для допуска изображений
-        // private _sanitizer: Sanitizer,
     ) {}
-
-    //Для допуска изображений
-    // get getImg() {
-    //     return this._sanitizer.sanitize(SecurityContext.URL, `data:image/png;base64,${this.img}`);
-    // }
 
     //по айдишнику находит из массива элемент и записывает его в ИтемТуЧендж
     getChangeItem(id: string) {
        this.items.forEach((item) => {
-           if(item.key == id) {
+           if(item.id == parseInt(id, 10)) {
+            console.log(item);
             this.itemToChange = item;
            }
        }); 
@@ -65,8 +59,8 @@ export class ChangeItemInfoService {
 
     //Забирает из сервера списки типов и мест
     getLists() {
-        this.placeList = this.showAllPlaceService.getStorages();
-        this.typeList = this.showAllItemTypesservice.getItemTypes();
+        this.placeList = this.showAllPlaceService.getStorages(false);
+        this.typeList = this.showAllItemTypesservice.getItemTypes(false);
         return [this.placeList, this.typeList];
     }
 

@@ -9,7 +9,7 @@ import { AddTypeService } from '../addType.service';
 export class TypeAddedComponent implements OnInit {
 
   constructor(
-    private addTypeService: AddTypeService
+    public addTypeService: AddTypeService
   ) { }
 
   ngOnInit(): void {

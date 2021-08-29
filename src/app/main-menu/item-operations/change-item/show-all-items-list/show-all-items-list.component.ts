@@ -11,6 +11,7 @@ import { ShowAllItemsService } from '../../show-all-items/showAllItems.service';
   styleUrls: ['./show-all-items-list.component.css']
 })
 export class ShowAllItemsListComponent implements OnInit {
+
   constructor(
     public changeItemInfoService: ChangeItemInfoService,
     private showAllITemsService: ShowAllItemsService,
@@ -21,7 +22,9 @@ export class ShowAllItemsListComponent implements OnInit {
     this.showAllITemsService.getItems();
     this.showAllITemsService.listEmitter.subscribe((items) => {
       this.changeItemInfoService.items = items; 
-      console.log(this.changeItemInfoService.items);
+      for(let item of items) {
+        item.imageSource = item.imageURL();
+      }
     });
     
   }

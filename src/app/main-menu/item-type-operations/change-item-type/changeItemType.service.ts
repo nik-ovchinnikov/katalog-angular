@@ -19,10 +19,14 @@ export class ChangeItemTypeService {
         this.http.get(
             this.showComponentService.serverPath + '/itemType/getAll',
         ).subscribe(responseData => {
+            //исключает "Отсутствует", остальные добавляет
             for (let elem in responseData) {
-                this.itemTypeList.push(
-                    responseData[elem]
-                );
+                if(responseData[elem].id != -1) {
+                    let itemType = new ItemType(responseData[elem].name, responseData[elem].description, responseData[elem].id);
+                    this.itemTypeList.push(
+                        itemType
+                    );
+                }
             }
             this.onListChanged.emit(this.itemTypeList);
         });
@@ -36,14 +40,14 @@ export class ChangeItemTypeService {
         }
     }
 
-    public getNewItemType (changedInfo: Storage) {
+    public getNewItemType (changedInfo: ItemType) {
         Object.assign(this.newItemTypeInfo, this.oldItemTypeInfo);
         this.newItemTypeInfo.name = changedInfo["editedItemTypeName"];
         this.newItemTypeInfo.description = changedInfo["editedItemTypeDescription"];
     }
 
     public updateItemType() {
-        //console.log(this.newStorageInfo); 
+        console.log(this.newItemTypeInfo); 
         this.http.put(
            this.showComponentService.serverPath + '/itemType/updateItemType',
             this.newItemTypeInfo

@@ -15,15 +15,15 @@ export class ChangeTypeInfoComponent implements OnInit {
   
 
   constructor( 
-    private changeItemTypeService: ChangeItemTypeService,
+    public changeItemTypeService: ChangeItemTypeService,
     private showComponentService: ShowComponentService,
     private http: HttpClient,
     ) { }
   
   ngOnInit(): void {
     this.changeTypeForm= new FormGroup({
-      'name': new FormControl(null, [Validators.required]),
-      'description': new FormControl(null, []),
+      'name': new FormControl(this.changeItemTypeService.oldItemTypeInfo.name, [Validators.required]),
+      'description': new FormControl(this.changeItemTypeService.oldItemTypeInfo.description, []),
 
     });
   }
@@ -32,6 +32,8 @@ export class ChangeTypeInfoComponent implements OnInit {
   onSubmit() {
     this.changeItemTypeService.newItemTypeInfo.name = this.changeTypeForm.value.name;
     this.changeItemTypeService.newItemTypeInfo.description = this.changeTypeForm.value.description;
+    this.changeItemTypeService.newItemTypeInfo.id= this.changeItemTypeService.oldItemTypeInfo.id;
+
     this.changeItemTypeService.updateItemType();
     this.showComponentService.changeSceneTo('typeChanged'); 
   }
@@ -40,13 +42,16 @@ export class ChangeTypeInfoComponent implements OnInit {
     this.http.get(
       this.showComponentService.serverPath + '/itemType/isExist/' + event.target.value
     ).subscribe(responseData => { 
+      console.log(this.changeItemTypeService.oldItemTypeInfo.name);
       //понятия не имею, почему не передавалось присваиванием
-      if(responseData == true) {
+      if(
+        (responseData == true) &&
+        (event.target.value != this.changeItemTypeService.oldItemTypeInfo.name)
+        ) {
         this.nameExistFlag = true;
       }else {
         this.nameExistFlag = false;
       }
-      console.log(this.nameExistFlag);
     });
   }
 }

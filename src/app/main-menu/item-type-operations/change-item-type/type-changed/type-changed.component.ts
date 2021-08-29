@@ -9,7 +9,7 @@ import { ChangeItemTypeService } from '../changeItemType.service';
 export class TypeChangedComponent implements OnInit {
 
   constructor(
-    private changeItemTypeService: ChangeItemTypeService
+    public changeItemTypeService: ChangeItemTypeService
   ) { }
   
   ngOnInit(): void {

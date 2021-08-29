@@ -7,6 +7,8 @@
                     <th>Имя</th>
                     <th>Описание</th>
                     <th>Ключ</th>
+                    <th>Изображение</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody *ngFor="let item of this.deleteItemService.items; let i = index">
@@ -15,6 +17,8 @@
                     <td>{{ item.name }}</td>
                     <td>{{item.description}}</td>
                     <td>{{ item.key }}</td>
+                    <!-- <td><img src="../../Picture/ + {{item.itemPicture[0].name}}" class="demo-item-photo"></td> -->
+                    <td><img src="{{ item.imageSource}}" class="demo-item-photo"></td>
                     <td><div class="btn delete-btn" id="{{ item.key }}">Удалить</div></td>
                 </tr>
                 

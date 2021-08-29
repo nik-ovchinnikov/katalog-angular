@@ -32,3 +32,7 @@ h2 {
 .add-photo-image {
     width: 200px;
 }
+
+.file-upload {
+    display: inline-block;
+}

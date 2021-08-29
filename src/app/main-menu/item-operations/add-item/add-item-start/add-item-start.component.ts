@@ -44,7 +44,6 @@ export class AddItemStartComponent implements OnInit {
               private http: HttpClient,  
                 ) { }
 
-   
 
   ngOnInit(): void {
     //связывает форму с шаблоном
@@ -190,4 +189,10 @@ export class AddItemStartComponent implements OnInit {
       console.log(this.keyExistFlag);
     });
   }
+
+  //Для решения бага с нажатием enter и дальнейшим вызыванием событий, повешенных на соседник кнопки
+  onEnter(event) {
+    event.preventDefault();
+  }
+
 }

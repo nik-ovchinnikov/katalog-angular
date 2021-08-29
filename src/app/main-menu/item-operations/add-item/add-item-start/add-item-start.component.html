@@ -1,5 +1,5 @@
 
-<div class="container"> 
+<div class="container" id="enterDown"> 
     <h2>Добавление нового предмета </h2>
     <form [formGroup]="addItemForm" (ngSubmit)="onSubmit()">
         <div class="form-group add-input-form">
@@ -41,14 +41,14 @@
                   (click)="onAddPhotoPath()">Добавить фото</button>
                 <div
                   class="add-file"
-                  *ngFor="let itemPictures of controlsItemPictures; let i = index">
-                    <div>
+                  *ngFor="let itemPictures of controlsItemPictures; let i = index"> 
+                    <div class="container">
                         <input type="file"
-                            class="add-image-path" 
+                            class="add-image-path form-control-file" 
                             [formControlName]="i" 
                             (change)="onFileAdded($event)" 
                         >
-                        <button class="delete-photo-button" 
+                        <button class="delete-photo-button btn btn-outline-danger " 
                             (click)="onClickDeletePicture($event)"
                             wasUploaded="false"
                         >X</button>

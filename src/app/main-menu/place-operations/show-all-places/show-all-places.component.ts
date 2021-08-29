@@ -18,7 +18,7 @@ export class ShowAllPlacesComponent implements OnInit {
   place: Storage = new Storage();
 
   ngOnInit(): void {
-    this.places = this.showAllPlacesService.getStorages(); 
+    this.places = this.showAllPlacesService.getStorages(false); 
   }
 
   ngAfterViewChecked() {

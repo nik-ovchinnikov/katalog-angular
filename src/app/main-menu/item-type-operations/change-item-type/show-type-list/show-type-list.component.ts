@@ -26,8 +26,8 @@ export class ShowTypeListComponent implements OnInit {
   ngOnInit(){
     this.changeItemTypeService.itemTypeList= [];
     this.changeItemTypeService.getItemTypes();
-    this.changeItemTypeService.onListChanged.subscribe((listChanged: Storage[])=> {
-      this.types= listChanged;
+    this.changeItemTypeService.onListChanged.subscribe((listChanged: ItemType[])=> {
+      this.types= listChanged; 
     });
   }
 

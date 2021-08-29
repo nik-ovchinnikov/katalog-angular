@@ -19,7 +19,7 @@ export class ShowAllTypeItemsService {
         private showComponentService: ShowComponentService,
        ) {}
 
-      getTypeList(): Storage[] {
+      getTypeList(): ItemType[] {
          this.typeList= this.showAllTypeService.getItemTypes();
          return this.typeList;   
       }

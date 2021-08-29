@@ -28,31 +28,37 @@
                 (keyup)="onKeyKey($event)" 
             >
             <!-- Ранее загруженные фото, сделать с функцией удалить  -->
-            <div formArrayName="oldItemPictures">
+            <div formArrayName="oldItemPictures" class="">
                 <label>Cтарые фотографии</label>
                 <div
                     *ngFor="let itemPicture of this.itemPictureOld;  let i = index"
+                    class=""
                 >
-                    <div>
+                    <div class="container">
                         <input
-                            class="form-control name-input"
+                            class="form-control name-input file-upload"
                             [formControlName]="i" 
                             type="text"
                             (keyup)="onKeyOldPictureName($event)"
+                            
+                            (keyup.enter)="onEnterOldPicture($event)"
                             [id]="itemPicture.id"
                         >
-                        <button class="delete-photo-button" 
+                        <button class="delete-photo-button file-upload" 
                             (click)="onClickDeleteOldPicture($event)"
                         >X</button>
                         <img 
-                            class="add-photo-image"
-                            src="sdaf3"
+                            class="add-photo-image file-upload"
+                            src="./cathedral-santa-maria-della-salute.jpg"
                         >
+                        <span class=""
+                        *ngIf="this.oldPhotoNameIsExistFlag"
+                        >Данное название фото уже есть в каталоге. Переименуйте и загрузите заново</span>
                     </div>
                     <!-- <br> -->
                 </div>
             </div>
-            <div formArrayName="itemPictures">
+            <div formArrayName="itemPictures" class="container">
                 <label>Добавление фотографии </label> <br>
                 <button
                   class="btn btn-default"
@@ -73,9 +79,10 @@
                         >X</button>
                         <img 
                             class="add-photo-image"
-                        > <span
+                        > 
+                        <span class="invalid-feedback"
                         *ngIf="this.newPhotoNameIsExistFlag"
-                    >Данное название фото уже есть в каталоге. Переименуйте и загрузите заново</span>
+                        >Данное название фото уже есть в каталоге. Переименуйте и загрузите заново</span>
                     </div>
                     <br>
                 </div>

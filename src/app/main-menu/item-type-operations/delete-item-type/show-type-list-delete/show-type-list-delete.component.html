@@ -11,14 +11,18 @@
                     value={{type.name}}
                     aria-label="Список типов предметов: "
                     ngModel
+                    required
                      >
                 {{ type.name}}
                 </label>
             </div>
         </div>
         <div class="container">
-            <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
-            <button class="btn btn-danger" type="submit">Удалить</button>
+            <button class="btn btn-primary btn-scope" id="mainMenu"
+            >Главное меню</button>
+            <button class="btn btn-danger" type="submit"
+                [disabled]="!f.valid"
+            >Удалить</button>
         </div>
     </form>
 

@@ -19,9 +19,11 @@ export class ChangePlaceInfoService {
            this.showComponentService.serverPath + '/storage/getAll',
         ).subscribe(responseData => {
             for (let elem in responseData) {
-                this.storageList.push(
-                    responseData[elem]
-                );
+                if(responseData[elem].id != -1){
+                    this.storageList.push(
+                        responseData[elem]
+                    );
+                }
             }
             this.onStorageListChanged.emit(this.storageList);
         });

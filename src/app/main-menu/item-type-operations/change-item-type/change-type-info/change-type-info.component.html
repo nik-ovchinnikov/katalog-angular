@@ -9,7 +9,6 @@
           formControlName="name"
           (keyup)="onKey($event)"
         >
-          placeholder="{{ this.changeItemTypeService.oldItemTypeInfo.name}}"  
         <small id="helpId" class="form-text text-muted">Введите новое название хранилища </small><br>
         <span
                 *ngIf= "changeTypeForm.get('name').touched && this.nameExistFlag"

@@ -8,7 +8,7 @@ import { DeleteItemService } from '../deleteItem.service';
 })
 export class ItemDeletedComponent implements OnInit {
 
-  constructor(private deleteItemService: DeleteItemService) { }
+  constructor(public deleteItemService: DeleteItemService) { }
 
   ngOnInit(): void {
   }

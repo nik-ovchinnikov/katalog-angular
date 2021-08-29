@@ -10,9 +10,11 @@
                     <th>Место Хранения</th>
                     <th>Тип</th>
                     <th>Фото</th>
+                    <th></th>
+                  
                 </tr>
             </thead>
-            <tbody *ngFor="let item of this.changeItemInfoService.items; let i = index">
+            <tbody *ngFor="let item of this.changeItemInfoService.items; let i = index"> 
                 <tr>
                     <th scope="row">{{ i + 1 }}</th>
                     <td>{{ item.name }}</td>
@@ -20,9 +22,8 @@
                     <td>{{ item.key }}</td>
                     <td>{{ item.storage.name}}</td>
                     <td>{{ item.itemType.name}}</td>
-                    <td *ngFor="let itemPicture of item.itemPicture"><img src="{{ itemPicture.path + itemPicture.name }}"></td>
-                    <!-- <td *ngFor="let itemPicture of item.itemPicture"></td> -->
-                    <td><div class="btn primary-btn change-btn" id="{{ item.key }}">Изменить</div></td>
+                    <td><img src="{{ item.imageSource}}" class="demo-item-photo"></td>
+                    <td><div class="btn primary-btn change-btn" id="{{ item.id }}">Изменить</div></td> 
                 </tr>
                 
             </tbody>

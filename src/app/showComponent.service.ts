@@ -1,8 +1,10 @@
 export class ShowComponentService {
 
     public serverPath: string = "http://localhost:8080";
-
-    public valueStatusCollection = {
+    // public serverPath: string = "http://192.168.0.228:1204";
+    // public serverPath: string = "http://192.168.0.229:1204"; 
+       public valueStatusCollection = {
+        
         mainMenu: true,
         
         addPlace: false,
