@@ -11,6 +11,7 @@
                     value={{place.name}}
                     aria-label="Список мест хранения: "
                     ngModel
+                    required
                      >
                 {{ place.name}}
                 </label>
@@ -18,7 +19,7 @@
         </div>
         <div class="container">
             <button class="btn btn-primary btn-scope" id="mainMenu">Главное меню</button>
-            <button class="btn btn-success" type="submit">Выбрать</button>
+            <button class="btn btn-success" type="submit" [disabled]="f.valid">Выбрать</button>
         </div>
     </form>
 

@@ -59,8 +59,8 @@ export class ChangeItemInfoService {
 
     //Забирает из сервера списки типов и мест
     getLists() {
-        this.placeList = this.showAllPlaceService.getStorages(false);
-        this.typeList = this.showAllItemTypesservice.getItemTypes(false);
+        this.placeList = this.showAllPlaceService.getStorages();
+        this.typeList = this.showAllItemTypesservice.getItemTypes();
         return [this.placeList, this.typeList];
     }
 

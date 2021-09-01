@@ -4,6 +4,7 @@ import { ShowComponentService } from 'src/app/showComponent.service';
 import { Storage } from 'src/app/shared/storage.model';
 import { NgForm } from '@angular/forms';
 import { ItemType } from 'src/app/shared/itemType.model';
+import { ShowAllItemTypeService } from '../../shoe-all-item-types/showAllItemTypes.service';
 
 @Component({
   selector: 'app-show-type-list-delete',
@@ -19,12 +20,12 @@ export class ShowTypeListDeleteComponent implements OnInit {
 
   constructor(
     private showComponentSercvice: ShowComponentService,
-    private deleteTypeService: DeleteTypeService
+    private deleteTypeService: DeleteTypeService,
   ) { }
 
   ngOnInit(): void {
     this.deleteTypeService.itemTypeList = [];
-    this.deleteTypeService.getItemTypes();
+    this.deleteTypeService.getItemTypes(false);
     this.deleteTypeService.onListChanged.subscribe((typeListChanged: ItemType[]) => {
       this.types = typeListChanged;
     });

@@ -21,12 +21,11 @@ export class Item {
     ) {}
 
     public imageURL(): string {
-        let result
-        if(this.itemPicture != undefined) {
-            console.log(this.itemPicture[0].path + this.itemPicture[0].name);
+        let result;
+        console.log(this.itemPicture);
+        if(this.itemPicture.length != 0) {
             result = this.itemPicture[0].path + this.itemPicture[0].name;
         } else {
-            console.log(3434234324);
             result = '#';
         }
         return result;

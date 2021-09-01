@@ -2,6 +2,8 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Item } from 'src/app/shared/item.model';
 import { ShowComponentService } from 'src/app/showComponent.service';
+import { ItemType } from 'src/app/shared/itemType.model';
+import { Storage } from 'src/app/shared/storage.model';
 
 @Injectable()
 export class ShowAllItemsService {
@@ -20,7 +22,25 @@ export class ShowAllItemsService {
         ).subscribe(responseData => {
             for (let elem in responseData) {
                 this.itemsList.push(
-                    responseData[elem]
+                    new Item(
+                        responseData[elem].name,
+                        responseData[elem].description,
+                        responseData[elem].itemPicture,
+                        responseData[elem].key,
+                        responseData[elem].incomeDate,
+                        new Storage(
+                            responseData[elem].storage.name,
+                            responseData[elem].storage.description,
+                            responseData[elem].storage.id,
+                        ),
+                        new ItemType(
+                            responseData[elem].itemType.name,
+                            responseData[elem].itemType.description,
+                            responseData[elem].itemType.id,
+                        ),
+                        responseData[elem].id,
+                    // responseData[elem]
+                    )
                 );
                 //собираем названия картинок
                 //хотя это не нужно по большому счёту

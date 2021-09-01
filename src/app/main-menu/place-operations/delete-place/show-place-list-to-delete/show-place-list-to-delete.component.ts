@@ -20,7 +20,7 @@ export class ShowPlaceListToDeleteComponent implements OnInit {
               private deletePlaceService: DeletePlaceService) { }
 
   ngOnInit(): void {
-    this.deletePlaceService.getStorages();
+    this.deletePlaceService.getStorages(false);
     this.deletePlaceService.onStorageListChanged.subscribe((storageListChanged: Storage[])=> {
       this.places = storageListChanged;
     });

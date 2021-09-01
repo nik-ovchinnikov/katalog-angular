@@ -21,6 +21,9 @@ export class ShowItemDeleteListComponent implements OnInit {
     this.showAllItemsService.getItems();
     this.showAllItemsService.listEmitter.subscribe((items) => {
       this.deleteItemService.items = items;
+      for (let item of items) {
+        item.imageSource = item.imageURL();
+      }
     });
   }
   ngAfterViewChecked(): void {

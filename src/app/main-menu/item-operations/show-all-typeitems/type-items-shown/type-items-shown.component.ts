@@ -13,6 +13,12 @@ export class TypeItemsShownComponent implements OnInit {
     public showAllTypeItemsService: ShowAllTypeItemsService    
   ) { }
   ngOnInit(): void {
+    this.showAllTypeItemsService.listEmitter.subscribe( (items) => {
+      for(let item of items) {
+        item.imageSource = item.imageURL();
+      }
+    }
+    );
   }
 
 }

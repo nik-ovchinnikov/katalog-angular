@@ -21,16 +21,32 @@ export class DeletePlaceService {
         }
     }
 
-    public getStorages() {
+    public getStorages(showAbsendFlag: boolean = true) {
         this.storageList = [];
         this.http.get(
            this.showComponentService.serverPath + '/storage/getAll',
         ).subscribe(responseData => {
-            for (let elem in responseData) {
-                this.storageList.push(
-                    responseData[elem]
-                );
-            }
+            // for (let elem in responseData) {
+            //     this.storageList.push(
+            //         responseData[elem]
+            //     );
+            // }
+            if(!showAbsendFlag){
+                for (let elem in responseData) {
+                    if((responseData[elem].id != -1) 
+                    ) {
+                        this.storageList.push(
+                            responseData[elem]
+                        );
+                    }
+                }
+            }else{
+                for (let elem in responseData) {
+                    this.storageList.push(
+                        responseData[elem]
+                    );
+                }
+            }    
             this.onStorageListChanged.emit(this.storageList);
         });
         

@@ -22,7 +22,7 @@ export class ShowAllItemsListComponent implements OnInit {
     this.showAllITemsService.getItems();
     this.showAllITemsService.listEmitter.subscribe((items) => {
       this.changeItemInfoService.items = items; 
-      for(let item of items) {
+      for(let item of this.changeItemInfoService.items) {
         item.imageSource = item.imageURL();
       }
     });

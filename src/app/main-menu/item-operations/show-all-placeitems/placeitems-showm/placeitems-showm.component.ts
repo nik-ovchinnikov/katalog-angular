@@ -13,6 +13,11 @@ export class PlaceitemsShowmComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.showAllPlaceItemsService.listEmitter.subscribe((items) => {
+      for (let item of items) {
+        item.imageSource = item.imageURL();
+      }
+    });
   }
 
 }

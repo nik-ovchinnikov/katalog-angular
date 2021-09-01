@@ -23,11 +23,8 @@ export class ShowAllItemsComponent implements OnInit {
     this.showAllItemsService.getItems();
     this.showAllItemsService.listEmitter.subscribe((items) => {
       this.itemsList = items;
-      for (let item of this.itemsList) {
-        for (let ip of item.itemPicture) {
-          ip.trustedURL = this.sanitizer.bypassSecurityTrustUrl(ip.path + ip.name); 
-          //console.log(ip.trustedURL);
-        }
+      for(let item of this.itemsList) {
+        item.imageSource = item.imageURL();
       }
     });
   }
